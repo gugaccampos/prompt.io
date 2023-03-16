@@ -1,42 +1,58 @@
-import { Input } from 'components/Input'
-import { FC } from 'react'
-import * as S from './styles'
+import InputStep from 'components/InputStep'
+import { useState } from 'react'
 
-// const PROMPT_SIZE = [8, 8]
-const USER_TRIES = [...new Array(5)]
+interface userTriesTypes {
+  currRow: number
+  currTry: Array<string | null>
+  solution: string
+  tries: Array<Array<string> | null>
+}
 
-export const Tries: FC = () => {
-  // const [currentTry, setCurrentTry] = useState(1)
+export const Tries = () => {
+  const [userInfo, setUserInfo] = useState<userTriesTypes>(() => {
+    if (!localStorage.getItem('prompt'))
+      return {
+        currRow: 0,
+        currTry: [...Array(16)].map(() => ''),
+        solution: 'casa nova',
+        tries: [[], [], [], [], []]
+      }
 
-  // const generateInputs = () => {
-  //   const
-  //   PROMPT_SIZE.map()
+    const currentUser: userTriesTypes = JSON.parse(
+      localStorage.getItem('prompt') || '{}'
+    )
+
+    return currentUser
+  })
+
+  const createSolutionLengthArray = () => {
+    const solutionArray = userInfo?.solution.split(' ')
+    const lengthArray = solutionArray.map((solution) => solution.length)
+
+    return lengthArray
+  }
+
+  // const createSolutionArray = () => {
+  //   const solutionArray = userInfo?.solution.split(' ')
+
   // }
 
+  const onComplete = (currTry: string[]) => {
+    console.log(currTry)
+    setUserInfo(userInfo)
+  }
+
   return (
-    <S.Container>
-      {USER_TRIES.map((_, index) => (
-        <S.Row key={index}>
-          <Input disabled={index !== 0} rightKey />
-          <Input disabled={index !== 0} rightPlace />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input space />
-          <Input disabled={index !== 0} rightKey />
-          <Input disabled={index !== 0} rightKey />
-          <Input disabled={index !== 0} rightPlace />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          <Input disabled={index !== 0} />
-          {/* {PROMPT_SIZE.map()} */}
-        </S.Row>
-      ))}
-    </S.Container>
+    <>
+      {[...new Array(5)].map((item) => {
+        return (
+          <InputStep
+            key={item}
+            length={createSolutionLengthArray()}
+            onComplete={onComplete}
+          />
+        )
+      })}
+    </>
   )
 }

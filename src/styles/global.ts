@@ -69,6 +69,8 @@ export const Container = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 16px;
 
     width: 100%;
     max-width: ${theme.grid.container};
