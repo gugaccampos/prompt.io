@@ -2,9 +2,14 @@ import { Image } from 'components/Image'
 import { Keyboard } from 'components/Keyboard'
 import { Topbar } from 'components/Topbar'
 import { Tries } from 'components/Tries'
+import { useEffect } from 'react'
 import { Container } from 'styles/global'
 
 export default function Home() {
+  useEffect(() => {
+    localStorage.setItem('level', JSON.stringify(0))
+  }, [])
+
   return (
     <Container>
       <Topbar />

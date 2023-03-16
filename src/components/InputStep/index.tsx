@@ -2,11 +2,12 @@ import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react'
 import { ContainerInputs, Input, Space } from './styles'
 
 interface InputStepT {
+  isRowActive: boolean
   length: Array<number>
   onComplete: (code: Array<string>) => void
 }
 
-const InputStep: FC<InputStepT> = ({ length, onComplete }) => {
+const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
   const allLength = length.reduce((acc, number) => acc + number, 0)
   const formatedAllInputsLength = length.map((curr, idx) => {
     if (idx === 0) return curr
@@ -27,10 +28,6 @@ const InputStep: FC<InputStepT> = ({ length, onComplete }) => {
     if (slot !== allLength - 1) {
       inputs.current[slot + 1].focus()
     }
-
-    if (newCode.every((key) => key !== '')) {
-      onComplete(newCode)
-    }
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
@@ -39,6 +36,10 @@ const InputStep: FC<InputStepT> = ({ length, onComplete }) => {
       newCode[slot - 1] = ''
       setCode(newCode)
       inputs.current[slot - 1].focus()
+    }
+
+    if (e.code === 'Enter' && code.every((key) => key !== '')) {
+      onComplete(code)
     }
   }
 
@@ -51,6 +52,7 @@ const InputStep: FC<InputStepT> = ({ length, onComplete }) => {
               <Space>-</Space>
               <Input
                 key={idx}
+                disabled={!isRowActive}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
@@ -66,6 +68,7 @@ const InputStep: FC<InputStepT> = ({ length, onComplete }) => {
         return (
           <Input
             key={idx}
+            disabled={!isRowActive}
             type="text"
             inputMode="numeric"
             maxLength={1}

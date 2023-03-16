@@ -18,6 +18,10 @@ export const Input = styled.input<{ color?: string }>`
 
   outline: none;
 
+  &:disabled {
+    opacity: 0.4;
+  }
+
   @media (max-width: 600px) {
     width: 24px;
     height: 32px;
