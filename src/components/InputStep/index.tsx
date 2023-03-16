@@ -1,3 +1,4 @@
+import { charStatus, userTriesTypes } from 'components/Tries/types'
 import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react'
 import { ContainerInputs, Input, Space } from './styles'
 
@@ -5,9 +6,19 @@ interface InputStepT {
   isRowActive: boolean
   length: Array<number>
   onComplete: (code: Array<string>) => void
+  userInfo: userTriesTypes
+  rowIndex: number
+  blur: boolean
 }
 
-const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
+const InputStep: FC<InputStepT> = ({
+  length,
+  isRowActive,
+  userInfo,
+  blur,
+  rowIndex,
+  onComplete
+}) => {
   const allLength = length.reduce((acc, number) => acc + number, 0)
   const formatedAllInputsLength = length.map((curr, idx) => {
     if (idx === 0) return curr
@@ -28,6 +39,24 @@ const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
     if (slot !== allLength - 1) {
       inputs.current[slot + 1].focus()
     }
+  }
+
+  const renderInputColor = (idx: number) => {
+    if (userInfo.currRow > 0) {
+      if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
+        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
+          return '#3AA394'
+        }
+
+        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION)
+          return '#EEC272'
+
+        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
+          return undefined
+      }
+    }
+
+    return undefined
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
@@ -53,6 +82,7 @@ const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
               <Input
                 key={idx}
                 disabled={!isRowActive}
+                blur={blur}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
@@ -60,6 +90,7 @@ const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
                 autoFocus={!code[0].length && idx === 0}
                 onChange={(e) => processInput(e, idx)}
                 onKeyUp={(e) => onKeyUp(e, idx)}
+                color={renderInputColor(idx)}
                 // eslint-disable-next-line
                 ref={(ref) => inputs.current.push(ref!)}
               />
@@ -69,6 +100,7 @@ const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
           <Input
             key={idx}
             disabled={!isRowActive}
+            blur={blur}
             type="text"
             inputMode="numeric"
             maxLength={1}
@@ -76,6 +108,7 @@ const InputStep: FC<InputStepT> = ({ length, isRowActive, onComplete }) => {
             autoFocus={!code[0].length && idx === 0}
             onChange={(e) => processInput(e, idx)}
             onKeyUp={(e) => onKeyUp(e, idx)}
+            color={renderInputColor(idx)}
             // eslint-disable-next-line
             ref={(ref) => inputs.current.push(ref!)}
           />

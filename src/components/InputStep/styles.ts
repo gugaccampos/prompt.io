@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Input = styled.input<{ color?: string }>`
+export const Input = styled.input<{ color?: string; blur?: boolean }>`
   width: 32px;
   height: 48px;
 
@@ -18,9 +18,7 @@ export const Input = styled.input<{ color?: string }>`
 
   outline: none;
 
-  &:disabled {
-    opacity: 0.4;
-  }
+  opacity: ${(props) => (props.blur ? 0.4 : 1)};
 
   @media (max-width: 600px) {
     width: 24px;
