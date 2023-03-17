@@ -35,7 +35,7 @@ const InputStep: FC<InputStepT> = ({
     const newCode = [...code]
     userInfo.tries[rowIndex][slot] = key
     newCode[slot] = key
-    console.log(newCode)
+    // console.log(newCode)
 
     setCode(newCode)
 
@@ -45,7 +45,7 @@ const InputStep: FC<InputStepT> = ({
   }
 
   const renderInputColor = (idx: number) => {
-    console.log('entrou')
+    // console.log('entrou')
 
     if (userInfo.currRow > 0) {
       if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {

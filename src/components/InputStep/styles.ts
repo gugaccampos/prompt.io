@@ -17,6 +17,9 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   color: white;
 
   outline: none;
+  &:hover {
+    cursor: pointer;
+  }
 
   opacity: ${(props) => (props.blur ? 0.4 : 1)};
 

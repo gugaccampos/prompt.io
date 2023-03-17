@@ -49,6 +49,7 @@ export const Tries = () => {
 
   // }
 
+  // Pega do localStorage se já tiver informação lá
   useEffect(() => {
     if (localStorage.getItem('prompt') !== null) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -74,49 +75,101 @@ export const Tries = () => {
     localStorage.setItem('prompt', JSON.stringify(userInfo))
   }, [userInfo])
 
-  // const setLetterStatus = (status: charStatus, index: number) => {
-  //   setUserInfo((state) => {
-  //     const newTriesFeedback
-  //     return { ...state, triesFeedback[state.currRow][index]: status}
-  //   })
-  // }
-
   // Panguins dincando
   // Pinguins Felizes
 
-  const charEvaluation = (currTry: string[]) => {
-    const aux: charStatus[] = []
-
-    for (let i = 0; i < currTry.length; i++) {
-      userInfo.triesFeedback[userInfo.currRow][i] = charStatus.NOT_IN_WORD
-      aux[i] = charStatus.NOT_IN_WORD
-    }
-
-    console.log(userInfo.triesFeedback[userInfo.currRow])
-
-    for (let i = 0; i < currTry.length; i++) {
-      if (currTry[i] == userInfo.solutionArray[i]) {
-        userInfo.triesFeedback[userInfo.currRow][i] = charStatus.CORRECT
-        aux[i] = charStatus.CORRECT
+  const subtractOccurrence = (
+    letter: string,
+    letterAndCount: Pair[],
+    status: charStatus,
+    index: number
+  ) => {
+    for (let i = 0; i < letterAndCount.length; i++) {
+      if (letterAndCount[i][0] == letter) {
+        if (letterAndCount[i][1] > 0) {
+          console.log(userInfo.triesFeedback[userInfo.currRow])
+          userInfo.triesFeedback[userInfo.currRow][index] = status
+          letterAndCount[i][1] -= 1
+          return letterAndCount
+        }
       }
     }
 
-    console.log(userInfo.triesFeedback[userInfo.currRow])
+    return letterAndCount
+  }
+
+  const countOccurrences = (letter: string) => {
+    const occurrences = userInfo.solutionArray.reduce(
+      (accumulator, currentValue) => {
+        if (currentValue == letter) {
+          return accumulator + 1
+        }
+        return accumulator
+      },
+      0
+    )
+
+    return occurrences
+  }
+
+  type Pair = [string, number]
+
+  const charEvaluation = (currTry: string[]) => {
+    let letterAndCount: Pair[] = []
+    letterAndCount[0] = [currTry[0], countOccurrences(currTry[0])]
+    // console.log(letterAndCount)
+
+    // começa colocando todas como not in word
+    for (let i = 0; i < currTry.length; i++) {
+      userInfo.triesFeedback[userInfo.currRow][i] = charStatus.NOT_IN_WORD
+      let achou = false
+      for (let j = 0; j < letterAndCount.length; j++) {
+        if (letterAndCount[j][0] == currTry[i]) {
+          achou = true
+        }
+      }
+      if (!achou) {
+        letterAndCount.push([currTry[i], countOccurrences(currTry[i])])
+      }
+    }
+    // console.log(letterAndCount)
+
+    // console.log(userInfo.triesFeedback[userInfo.currRow])
+
+    // coloca todas na posição certa como correct
+    for (let i = 0; i < currTry.length; i++) {
+      if (currTry[i] == userInfo.solutionArray[i]) {
+        // userInfo.triesFeedback[userInfo.currRow][i] = charStatus.CORRECT
+        letterAndCount = subtractOccurrence(
+          currTry[i],
+          letterAndCount,
+          charStatus.CORRECT,
+          i
+        )
+      }
+    }
+
+    // console.log(userInfo.triesFeedback[userInfo.currRow])
 
     for (let i = 0; i < currTry.length; i++) {
       if (
         userInfo.solutionArray.includes(currTry[i]) &&
-        aux[i] !== charStatus.CORRECT
+        userInfo.triesFeedback[userInfo.currRow][i] !== charStatus.CORRECT
       ) {
         for (let j = 0; j < userInfo.solutionArray.length; j++) {
           if (
             userInfo.solutionArray[j] == currTry[i] &&
-            aux[j] !== charStatus.WRONG_POSITION &&
-            aux[j] !== charStatus.CORRECT
+            userInfo.triesFeedback[userInfo.currRow][i] ===
+              charStatus.NOT_IN_WORD
           ) {
-            userInfo.triesFeedback[userInfo.currRow][i] =
-              charStatus.WRONG_POSITION
-            aux[j] = charStatus.WRONG_POSITION
+            letterAndCount = subtractOccurrence(
+              currTry[i],
+              letterAndCount,
+              charStatus.WRONG_POSITION,
+              i
+            )
+
+            // userInfo.triesFeedback[userInfo.currRow][i] = charStatus.WRONG_POSITION
           }
         }
       }
@@ -145,7 +198,7 @@ export const Tries = () => {
 
     charEvaluation(currTry)
     const userWin = didUserWin()
-    console.log(userInfo.won)
+    // console.log(userInfo.won)
 
     // confere se acertou
     // se nao, aumenta a row
@@ -164,8 +217,10 @@ export const Tries = () => {
 
       if (userWin) {
         newState.won = true
+        alert('ganhou')
       } else if (state.currRow == 4) {
         newState.won = false
+        alert('perdeu')
       }
 
       return newState
