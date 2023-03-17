@@ -145,6 +145,8 @@ export const Tries = () => {
 
     charEvaluation(currTry)
     const userWin = didUserWin()
+    console.log(userInfo.won)
+
     // confere se acertou
     // se nao, aumenta a row
 
@@ -154,16 +156,16 @@ export const Tries = () => {
       const newTries = [...state.tries]
       newTries[state.currRow] = currTry
 
+      newState = {
+        ...state,
+        currRow: state.currRow + 1,
+        tries: newTries
+      }
+
       if (userWin) {
         newState.won = true
       } else if (state.currRow == 4) {
         newState.won = false
-      } else {
-        newState = {
-          ...state,
-          currRow: state.currRow + 1,
-          tries: newTries
-        }
       }
 
       return newState
@@ -180,8 +182,12 @@ export const Tries = () => {
             length={[8, 8]}
             userInfo={userInfo}
             onComplete={onComplete}
-            isRowActive={idx === userInfo?.currRow}
-            blur={idx > userInfo?.currRow}
+            isRowActive={idx === userInfo?.currRow && userInfo.won === null}
+            blur={
+              userInfo.won === null
+                ? idx > userInfo?.currRow
+                : idx >= userInfo?.currRow
+            }
             rowIndex={idx}
           />
         )
