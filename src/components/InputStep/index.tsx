@@ -33,7 +33,10 @@ const InputStep: FC<InputStepT> = ({
     const key = e.target.value
 
     const newCode = [...code]
+    userInfo.tries[rowIndex][slot] = key
     newCode[slot] = key
+    console.log(newCode)
+
     setCode(newCode)
 
     if (slot !== allLength - 1) {
@@ -63,6 +66,7 @@ const InputStep: FC<InputStepT> = ({
     if (e.code === 'Backspace' && !code[slot] && slot !== 0) {
       const newCode = [...code]
       newCode[slot - 1] = ''
+      userInfo.tries[rowIndex][slot - 1] = ''
       setCode(newCode)
       inputs.current[slot - 1].focus()
     }
@@ -74,7 +78,7 @@ const InputStep: FC<InputStepT> = ({
 
   return (
     <ContainerInputs>
-      {code.map((num, idx) => {
+      {userInfo.tries[rowIndex].map((num, idx) => {
         if (formatedAllInputsLength.find((curr) => curr === idx))
           return (
             <>

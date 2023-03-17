@@ -26,7 +26,13 @@ export const Tries = () => {
       'd',
       'o'
     ],
-    tries: [[], [], [], [], []],
+    tries: [
+      ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']
+    ],
     triesFeedback: [[], [], [], [], []]
   })
 
@@ -44,20 +50,24 @@ export const Tries = () => {
   // }
 
   useEffect(() => {
-    // chamada ao back
-    // passando o nivel atual
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < userInfo.solutionArray.length; j++) {
-        userInfo.triesFeedback[i][j] = charStatus.NOT_IN_WORD
-        console.log(userInfo.triesFeedback)
-      }
-    }
-
     if (localStorage.getItem('prompt') !== null) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
     }
-  }, [userInfo.solutionArray.length, userInfo.triesFeedback])
+  }, [])
+
+  useEffect(() => {
+    // chamada ao back
+    // passando o nivel atual
+    if (localStorage.getItem('prompt') === null) {
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < userInfo.solutionArray.length; j++) {
+          userInfo.triesFeedback[i][j] = charStatus.NOT_IN_WORD
+          userInfo.tries[i][j] = ''
+        }
+      }
+    }
+  }, [userInfo.solutionArray.length, userInfo.triesFeedback, userInfo.tries])
 
   // atualiza o localStorage a cada atualização de userInfo
   useEffect(() => {
@@ -114,16 +124,19 @@ export const Tries = () => {
     console.log(userInfo.triesFeedback[userInfo.currRow])
   }
 
-  // const didUserWin = (array: charStatus[]) => {
-  //   const charsRight = array.reduce((accumulator, currentValue) => {
-  //     if (currentValue == charStatus.CORRECT) {
-  //       return accumulator + 1
-  //     }
-  //     return accumulator
-  //   }, 0)
+  const didUserWin = () => {
+    const charsRight = userInfo.triesFeedback[userInfo.currRow].reduce(
+      (accumulator, currentValue) => {
+        if (currentValue == charStatus.CORRECT) {
+          return accumulator + 1
+        }
+        return accumulator
+      },
+      0
+    )
 
-  //   return charsRight == userInfo.solutionArray.length
-  // }
+    return charsRight == userInfo.solutionArray.length
+  }
 
   const onComplete = (currTry: string[]) => {
     for (let i = 0; i < currTry.length; i++) {
@@ -131,7 +144,7 @@ export const Tries = () => {
     }
 
     charEvaluation(currTry)
-
+    const userWin = didUserWin()
     // confere se acertou
     // se nao, aumenta a row
 
@@ -140,17 +153,19 @@ export const Tries = () => {
 
       const newTries = [...state.tries]
       newTries[state.currRow] = currTry
-      newState = {
-        ...state,
-        currRow: state.currRow + 1,
-        tries: newTries
-      }
-      if (state.currRow == 5) {
+
+      if (userWin) {
+        newState.won = true
+      } else if (state.currRow == 4) {
         newState.won = false
+      } else {
+        newState = {
+          ...state,
+          currRow: state.currRow + 1,
+          tries: newTries
+        }
       }
-      // if (userWin) {
-      //   newState.won = true
-      // }
+
       return newState
     })
   }

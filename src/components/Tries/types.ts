@@ -10,6 +10,6 @@ export interface userTriesTypes {
   solution: string
   solutionArray: string[]
   won: boolean | null
-  tries: Array<Array<string> | null>
+  tries: Array<Array<string>>
   triesFeedback: Array<Array<charStatus>>
 }
