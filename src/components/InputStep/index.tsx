@@ -48,10 +48,7 @@ const InputStep: FC<InputStepT> = ({
     console.log('entrou')
 
     if (userInfo.currRow > 0) {
-      if (
-        (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) ||
-        userInfo.won !== null
-      ) {
+      if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
         if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
           return '#3AA394'
         }
