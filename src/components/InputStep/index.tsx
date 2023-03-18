@@ -1,5 +1,12 @@
 import { charStatus, userTriesTypes } from 'components/Tries/types'
-import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  FC,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { ContainerInputs, Input, Space } from './styles'
 
 interface InputStepT {
@@ -28,6 +35,10 @@ const InputStep: FC<InputStepT> = ({
 
   const [code, setCode] = useState([...Array(allLength)].map(() => ''))
   const inputs = useRef<HTMLInputElement[]>([])
+
+  useEffect(() => {
+    inputs.current[0].focus()
+  }, [onComplete])
 
   const processInput = (e: ChangeEvent<HTMLInputElement>, slot: number) => {
     const key = e.target.value
