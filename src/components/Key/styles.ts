@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
-export const Button = styled.button<{ special?: boolean }>`
+export const Button = styled.button<{ special?: boolean; color?: string }>`
   margin: 4px 2px;
   background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${(props) => props.color};
 
   outline: none;
   border: none;

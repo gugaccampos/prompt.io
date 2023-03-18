@@ -8,7 +8,13 @@ const rows = [
   ['ok', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
 ]
 
-export const Keyboard: FC = () => {
+interface KeyboardProps {
+  color: string
+}
+
+export const Keyboard: FC<KeyboardProps> = () => {
+  // const keyColor = () => {}
+
   return (
     <S.Container>
       {rows.map((row) => (
