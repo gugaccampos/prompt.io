@@ -20,7 +20,7 @@ export default function Home() {
           url2="https://assets.americancinematheque.com/wp-content/uploads/2022/07/24132229/ac-opt-HAPPY-FEET_2.jpg"
         />
         <Tries />
-        <Keyboard color={'blue'} />
+        <Keyboard />
       </TriesContextProvider>
     </Container>
   )

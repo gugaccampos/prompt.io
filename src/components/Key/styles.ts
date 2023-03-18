@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Button = styled.button<{ special?: boolean; color?: string }>`
   margin: 4px 2px;
   background-color: ${({ theme }) => theme.colors.black};
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.color !== 'opacity' && props.color};
 
   outline: none;
   border: none;
@@ -11,6 +11,8 @@ export const Button = styled.button<{ special?: boolean; color?: string }>`
 
   width: ${({ special }) => (special ? '56px' : '32px')};
   height: 40px;
+
+  opacity: ${(props) => (props.color === 'opacity' ? 0.4 : 1)};
 
   cursor: pointer;
 
