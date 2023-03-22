@@ -14,27 +14,30 @@ export const Keyboard: FC = () => {
   const { userInfo } = useContext(TriesContext)
 
   const keyColor = (letter: string) => {
-    // falta fazer funcionar pra todas as tentativas
-    if (
-      userInfo.currRow > 0 &&
-      userInfo.solutionArray.includes(letter) &&
-      userInfo.tries[userInfo.currRow - 1].includes(letter)
-    ) {
-      for (let i = 0; i < userInfo.solutionArray.length; i++) {
-        if (
-          userInfo.solutionArray[i] == letter &&
-          userInfo.triesFeedback[userInfo.currRow - 1][i] == charStatus.CORRECT
-        ) {
-          return '#3AA394'
+    for (let i = 0; i < userInfo.tries.length; i++) {
+      if (
+        !userInfo.solutionArray.includes(letter) &&
+        userInfo.tries[i].includes(letter)
+      ) {
+        return 'opacity'
+      } else if (
+        userInfo.tries[i].includes(letter) &&
+        userInfo.solutionArray.includes(letter)
+      ) {
+        for (let j = 0; j < userInfo.solutionArray.length; j++) {
+          if (
+            userInfo.solutionArray[j] == letter &&
+            userInfo.triesFeedback[i][j] == charStatus.CORRECT
+          ) {
+            return '#3AA394'
+          }
         }
       }
-      return '#EEC272'
-    } else if (
-      userInfo.currRow > 0 &&
-      userInfo.tries[userInfo.currRow - 1].includes(letter) &&
-      !userInfo.solutionArray.includes(letter)
-    ) {
-      return 'opacity'
+    }
+    for (let i = 0; i < userInfo.tries.length; i++) {
+      if (userInfo.tries[i].includes(letter)) {
+        return '#EEC272'
+      }
     }
   }
 
