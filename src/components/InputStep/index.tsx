@@ -1,8 +1,10 @@
 import { charStatus, userTriesTypes } from 'components/Tries/types'
+import { TriesContext } from 'contexts/TriesContext'
 import {
   ChangeEvent,
   FC,
   KeyboardEvent,
+  useContext,
   useEffect,
   useRef,
   useState
@@ -33,15 +35,35 @@ const InputStep: FC<InputStepT> = ({
     return curr + length[idx]
   })
 
+  const { currentLetter, wasKeyPressed } = useContext(TriesContext)
+
   const [code, setCode] = useState([...Array(allLength)].map(() => ''))
   const inputs = useRef<HTMLInputElement[]>([])
+  const [inputFocused, setInputFocused] = useState(0)
 
   useEffect(() => {
     inputs.current[0].focus()
   }, [onComplete])
 
-  const processInput = (e: ChangeEvent<HTMLInputElement>, slot: number) => {
-    const key = e.target.value
+  useEffect(() => {
+    if (isRowActive && currentLetter !== '') {
+      console.log(inputFocused)
+
+      processInput(currentLetter, inputFocused)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wasKeyPressed])
+
+  const processInput = (
+    e: ChangeEvent<HTMLInputElement> | string,
+    slot: number
+  ) => {
+    let key = ''
+    if (typeof e === 'string') {
+      key = e
+    } else {
+      key = e.target.value
+    }
 
     const newCode = [...code]
     userInfo.tries[rowIndex][slot] = key
@@ -51,6 +73,8 @@ const InputStep: FC<InputStepT> = ({
     setCode(newCode)
 
     if (slot !== allLength - 1) {
+      console.log('entrou no processInput')
+
       inputs.current[slot + 1].focus()
     }
   }
@@ -108,6 +132,7 @@ const InputStep: FC<InputStepT> = ({
                 onChange={(e) => processInput(e, idx)}
                 onKeyUp={(e) => onKeyUp(e, idx)}
                 color={renderInputColor(idx)}
+                onFocus={() => setInputFocused(idx)}
                 // eslint-disable-next-line
                 ref={(ref) => inputs.current.push(ref!)}
               />
@@ -126,6 +151,7 @@ const InputStep: FC<InputStepT> = ({
             onChange={(e) => processInput(e, idx)}
             onKeyUp={(e) => onKeyUp(e, idx)}
             color={renderInputColor(idx)}
+            onFocus={() => setInputFocused(idx)}
             // eslint-disable-next-line
             ref={(ref) => inputs.current.push(ref!)}
           />

@@ -7,7 +7,10 @@ interface TriesContextProviderProps {
 
 interface TriesContextType {
   userInfo: userTriesTypes
+  currentLetter: string
+  wasKeyPressed: boolean
   onComplete: (currTry: string[]) => void
+  onKeyPressed: (letter: string) => void
 }
 
 export const TriesContext = createContext({} as TriesContextType)
@@ -45,6 +48,9 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     ],
     triesFeedback: [[], [], [], [], []]
   })
+
+  const [currentLetter, setCurrentLetter] = useState('')
+  const [wasKeyPressed, setWasKeyPressed] = useState(false)
 
   // isso aqui embaixo comentado provavelmente não vai ser usado
   // const createSolutionLengthArray = () => {
@@ -237,8 +243,21 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     })
   }
 
+  const onKeyPressed = (letter: string) => {
+    setCurrentLetter(letter)
+    setWasKeyPressed((state) => !state)
+  }
+
   return (
-    <TriesContext.Provider value={{ userInfo, onComplete }}>
+    <TriesContext.Provider
+      value={{
+        userInfo,
+        currentLetter,
+        wasKeyPressed,
+        onComplete,
+        onKeyPressed
+      }}
+    >
       {children}
     </TriesContext.Provider>
   )
