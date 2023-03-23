@@ -1,5 +1,6 @@
 import { charStatus, userTriesTypes } from 'components/Tries/types'
 import { createContext, ReactNode, useEffect, useState } from 'react'
+import { api } from 'services/api'
 
 interface TriesContextProviderProps {
   children: ReactNode
@@ -11,6 +12,10 @@ interface TriesContextType {
   wasKeyPressed: boolean
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
+  arePromptsLoading: boolean
+  prompts: { image: string; prompt: string }[]
+  level: number
+  getPrompts: () => Promise<void>
 }
 
 export const TriesContext = createContext({} as TriesContextType)
@@ -248,12 +253,48 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     setWasKeyPressed((state) => !state)
   }
 
+  const [arePromptsLoading, setArePromptsLoading] = useState(true)
+  const [prompts, setPrompts] = useState<{ image: string; prompt: string }[]>(
+    []
+  )
+
+  const [level, setLevel] = useState(() => {
+    let currLevel = 0
+
+    if (typeof window !== 'undefined') {
+      currLevel = Number(localStorage.getItem('level'))
+    }
+    return currLevel
+  })
+
+  const getPrompts = async () => {
+    try {
+      setArePromptsLoading(true)
+      const response = await api.get('/prompt')
+
+      setPrompts(response.data)
+      setLevel(0)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setArePromptsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getPrompts()
+  }, [])
+
   return (
     <TriesContext.Provider
       value={{
         userInfo,
         currentLetter,
         wasKeyPressed,
+        arePromptsLoading,
+        prompts,
+        level,
+        getPrompts,
         onComplete,
         onKeyPressed
       }}
