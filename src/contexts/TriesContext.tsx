@@ -165,7 +165,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
           }
         }
       }
-      console.log(userInfo.triesFeedback[userInfo.currRow])
+      // console.log(userInfo.triesFeedback[userInfo.currRow])
     }
   }
 
@@ -195,33 +195,43 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     const userWin = didUserWin()
     // console.log(userInfo.won)
 
+    if (userInfo !== undefined) {
+      for (let i = userInfo?.currRow + 1; i < 5; i++) {
+        for (let j = 0; j < userInfo.solutionArray.length; j++) {
+          userInfo.tries[i][j] = ''
+        }
+      }
+    }
+    console.log(userInfo?.triesFeedback)
+
     // confere se acertou
     // se nao, aumenta a row
 
-    setUserInfo((state) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      let newState = state!
-      const newTries = newState?.tries
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    let newState = userInfo!
+    const newTries = newState?.tries
 
-      newTries[newState.currRow] = currTry
-      console.log(newTries)
+    // console.log(newState.currRow)
+    // console.log(newTries[newState.currRow])
 
-      newState = {
-        ...newState,
-        currRow: newState.currRow + 1,
-        tries: newTries
-      }
+    newTries[newState.currRow] = currTry
+    // console.log(newTries)
 
-      if (userWin) {
-        newState.won = true
-        alert('ganhou')
-      } else if (newState.currRow == 4) {
-        newState.won = false
-        alert('perdeu')
-      }
+    newState = {
+      ...newState,
+      currRow: newState.currRow + 1,
+      tries: newTries
+    }
 
-      return newState
-    })
+    if (userWin) {
+      newState.won = true
+      alert('ganhou')
+    } else if (newState.currRow == 5) {
+      newState.won = false
+      alert('perdeu')
+    }
+
+    setUserInfo(newState)
   }
 
   const onKeyPressed = (letter: string) => {
@@ -278,7 +288,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
       promptLength: formatedAllInputsLength.at(-1) || 0
     }
 
-    console.log(newInfo)
+    // console.log(newInfo)
 
     return setUserInfo(newInfo)
   }
@@ -299,7 +309,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         >('/prompt')
 
         setPrompts(data)
-        console.log(data[0])
+        // console.log(data[0])
         initializeUserInfo(data[0])
       } catch (error) {
         console.error(error)

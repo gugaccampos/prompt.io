@@ -32,7 +32,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
-      console.log(inputFocused)
+      // console.log(inputFocused)
 
       processInput(currentLetter, inputFocused)
     }
@@ -50,20 +50,21 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       key = e.target.value
     }
 
-    console.log(code)
-    const newCode = [...code]
+    // console.log(code)
 
-    if (userInfo !== undefined) {
-      userInfo.tries[userInfo?.currRow][slot] = key
+    if (userInfo !== undefined && rowIndex === userInfo.currRow) {
+      const newCode = [...code]
+      userInfo.tries[userInfo.currRow][slot] = key
+      // console.log('aaaa', userInfo.tries[userInfo?.currRow + 2][slot])
+
       newCode[slot] = key
-    }
-    console.log(newCode)
+      setCode(newCode)
+      // console.log(newCode)
 
-    setCode(newCode)
+      // console.log(rowIndex, code)
 
-    if (userInfo !== undefined) {
       if (slot !== userInfo?.promptLength - 1) {
-        console.log('entrou no processInput')
+        // console.log('entrou no processInput')
 
         inputs.current[slot + 1].focus()
       }
