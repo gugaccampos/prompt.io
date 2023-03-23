@@ -3,7 +3,11 @@ import { TriesContext } from 'contexts/TriesContext'
 import { useContext } from 'react'
 
 export const Tries = () => {
-  const { userInfo, onComplete } = useContext(TriesContext)
+  const { userInfo } = useContext(TriesContext)
+
+  // useEffect(() => {
+  //   console.log(userInfo)
+  // }, [userInfo])
 
   return (
     <div>
@@ -12,15 +16,7 @@ export const Tries = () => {
         return (
           <InputStep
             key={item}
-            length={[8, 8]}
-            userInfo={userInfo}
-            onComplete={onComplete}
             isRowActive={idx === userInfo?.currRow && userInfo.won === null}
-            blur={
-              userInfo.won === null
-                ? idx > userInfo?.currRow
-                : idx >= userInfo?.currRow
-            }
             rowIndex={idx}
           />
         )

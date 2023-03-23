@@ -1,10 +1,9 @@
-import { charStatus, userTriesTypes } from 'components/Tries/types'
-import { TriesContext } from 'contexts/TriesContext'
+import { charStatus } from 'components/Tries/types'
+import { useTries } from 'contexts/TriesContext'
 import {
   ChangeEvent,
   FC,
   KeyboardEvent,
-  useContext,
   useEffect,
   useRef,
   useState
@@ -13,36 +12,22 @@ import { ContainerInputs, Input, Space } from './styles'
 
 interface InputStepT {
   isRowActive: boolean
-  length: Array<number>
-  onComplete: (code: Array<string>) => void
-  userInfo: userTriesTypes
+  // onComplete: (code: Array<string>) => void
   rowIndex: number
-  blur: boolean
+  // blur: boolean
 }
 
-const InputStep: FC<InputStepT> = ({
-  length,
-  isRowActive,
-  userInfo,
-  blur,
-  rowIndex,
-  onComplete
-}) => {
-  const allLength = length.reduce((acc, number) => acc + number, 0)
-  const formatedAllInputsLength = length.map((curr, idx) => {
-    if (idx === 0) return curr
+const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
+  const { currentLetter, wasKeyPressed, userInfo, onComplete } = useTries()
 
-    return curr + length[idx]
-  })
-
-  const { currentLetter, wasKeyPressed } = useContext(TriesContext)
-
-  const [code, setCode] = useState([...Array(allLength)].map(() => ''))
+  const [code, setCode] = useState(
+    [...Array(userInfo?.promptLength)].map(() => '')
+  )
   const inputs = useRef<HTMLInputElement[]>([])
   const [inputFocused, setInputFocused] = useState(0)
 
   useEffect(() => {
-    inputs.current[0].focus()
+    if (inputs.current.length) inputs.current[0].focus()
   }, [onComplete])
 
   useEffect(() => {
@@ -65,34 +50,44 @@ const InputStep: FC<InputStepT> = ({
       key = e.target.value
     }
 
+    console.log(code)
     const newCode = [...code]
-    userInfo.tries[rowIndex][slot] = key
-    newCode[slot] = key
-    // console.log(newCode)
+
+    if (userInfo !== undefined) {
+      userInfo.tries[userInfo?.currRow][slot] = key
+      newCode[slot] = key
+    }
+    console.log(newCode)
 
     setCode(newCode)
 
-    if (slot !== allLength - 1) {
-      console.log('entrou no processInput')
+    if (userInfo !== undefined) {
+      if (slot !== userInfo?.promptLength - 1) {
+        console.log('entrou no processInput')
 
-      inputs.current[slot + 1].focus()
+        inputs.current[slot + 1].focus()
+      }
     }
   }
 
   const renderInputColor = (idx: number) => {
     // console.log('entrou')
 
-    if (userInfo.currRow > 0) {
-      if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
-        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
-          return '#3AA394'
+    if (userInfo !== undefined) {
+      if (userInfo.currRow > 0) {
+        if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
+          if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
+            return '#3AA394'
+          }
+
+          if (
+            userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION
+          )
+            return '#EEC272'
+
+          if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
+            return undefined
         }
-
-        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION)
-          return '#EEC272'
-
-        if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
-          return undefined
       }
     }
 
@@ -103,7 +98,7 @@ const InputStep: FC<InputStepT> = ({
     if (e.code === 'Backspace' && !code[slot] && slot !== 0) {
       const newCode = [...code]
       newCode[slot - 1] = ''
-      userInfo.tries[rowIndex][slot - 1] = ''
+      if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
       setCode(newCode)
       inputs.current[slot - 1].focus()
     }
@@ -115,48 +110,57 @@ const InputStep: FC<InputStepT> = ({
 
   return (
     <ContainerInputs>
-      {userInfo.tries[rowIndex].map((num, idx) => {
-        if (formatedAllInputsLength.find((curr) => curr === idx))
+      {userInfo &&
+        userInfo.tries[rowIndex].map((num, idx) => {
+          if (userInfo.arrayPromptLength.find((curr) => curr === idx))
+            return (
+              <>
+                <Space>-</Space>
+                <Input
+                  key={idx}
+                  disabled={!isRowActive}
+                  blur={
+                    userInfo.won === null
+                      ? rowIndex > userInfo?.currRow
+                      : rowIndex >= userInfo?.currRow
+                  }
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={num}
+                  autoFocus={!code[0].length && idx === 0}
+                  onChange={(e) => processInput(e, idx)}
+                  onKeyUp={(e) => onKeyUp(e, idx)}
+                  color={renderInputColor(idx)}
+                  onFocus={() => setInputFocused(idx)}
+                  // eslint-disable-next-line
+                  ref={(ref) => inputs.current.push(ref!)}
+                />
+              </>
+            )
           return (
-            <>
-              <Space>-</Space>
-              <Input
-                key={idx}
-                disabled={!isRowActive}
-                blur={blur}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={num}
-                autoFocus={!code[0].length && idx === 0}
-                onChange={(e) => processInput(e, idx)}
-                onKeyUp={(e) => onKeyUp(e, idx)}
-                color={renderInputColor(idx)}
-                onFocus={() => setInputFocused(idx)}
-                // eslint-disable-next-line
-                ref={(ref) => inputs.current.push(ref!)}
-              />
-            </>
+            <Input
+              key={idx}
+              disabled={!isRowActive}
+              blur={
+                userInfo.won === null
+                  ? rowIndex > userInfo?.currRow
+                  : rowIndex >= userInfo?.currRow
+              }
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={num}
+              autoFocus={!code[0].length && idx === 0}
+              onChange={(e) => processInput(e, idx)}
+              onKeyUp={(e) => onKeyUp(e, idx)}
+              color={renderInputColor(idx)}
+              onFocus={() => setInputFocused(idx)}
+              // eslint-disable-next-line
+              ref={(ref) => inputs.current.push(ref!)}
+            />
           )
-        return (
-          <Input
-            key={idx}
-            disabled={!isRowActive}
-            blur={blur}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={num}
-            autoFocus={!code[0].length && idx === 0}
-            onChange={(e) => processInput(e, idx)}
-            onKeyUp={(e) => onKeyUp(e, idx)}
-            color={renderInputColor(idx)}
-            onFocus={() => setInputFocused(idx)}
-            // eslint-disable-next-line
-            ref={(ref) => inputs.current.push(ref!)}
-          />
-        )
-      })}
+        })}
     </ContainerInputs>
   )
 }

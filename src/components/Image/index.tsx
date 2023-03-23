@@ -1,3 +1,4 @@
+import { useTries } from 'contexts/TriesContext'
 import { FC } from 'react'
 import * as S from './styles'
 
@@ -6,11 +7,17 @@ interface ImageT {
   url2: string
 }
 
-export const Image: FC<ImageT> = ({ url1, url2 }) => {
+export const Image: FC<ImageT> = () => {
+  const { prompts } = useTries()
+
   return (
     <S.Container>
-      <S.Image src={url1} />
-      <S.Image src={url2} />
+      {prompts.length !== 0 && (
+        <>
+          <S.Image src={`data:image/png;base64, ${prompts[0].image}`} />
+          <S.Image src={`data:image/png;base64, ${prompts[0].image}`} />
+        </>
+      )}
     </S.Container>
   )
 }
