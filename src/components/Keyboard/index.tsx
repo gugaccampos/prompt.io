@@ -14,29 +14,36 @@ export const Keyboard: FC = () => {
   const { userInfo } = useContext(TriesContext)
 
   const keyColor = (letter: string) => {
-    for (let i = 0; i < userInfo.tries.length; i++) {
-      if (
-        !userInfo.solutionArray.includes(letter) &&
-        userInfo.tries[i].includes(letter)
-      ) {
-        return 'opacity'
-      } else if (
-        userInfo.tries[i].includes(letter) &&
-        userInfo.solutionArray.includes(letter)
-      ) {
-        for (let j = 0; j < userInfo.solutionArray.length; j++) {
-          if (
-            userInfo.solutionArray[j] == letter &&
-            userInfo.triesFeedback[i][j] == charStatus.CORRECT
-          ) {
-            return '#3AA394'
+    if (userInfo !== undefined && userInfo.currRow > 0) {
+      for (let i = 0; i < userInfo.tries.length; i++) {
+        if (
+          !userInfo.solutionArray.includes(letter) &&
+          userInfo.tries[i].includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
+        ) {
+          return 'opacity'
+        } else if (
+          userInfo.tries[i].includes(letter) &&
+          userInfo.solutionArray.includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
+        ) {
+          for (let j = 0; j < userInfo.solutionArray.length; j++) {
+            if (
+              userInfo.solutionArray[j] == letter &&
+              userInfo.triesFeedback[i][j] == charStatus.CORRECT
+            ) {
+              return '#3AA394'
+            }
           }
         }
       }
-    }
-    for (let i = 0; i < userInfo.tries.length; i++) {
-      if (userInfo.tries[i].includes(letter)) {
-        return '#EEC272'
+      for (let i = 0; i < userInfo.tries.length; i++) {
+        if (
+          userInfo.tries[i].includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
+        ) {
+          return '#EEC272'
+        }
       }
     }
   }

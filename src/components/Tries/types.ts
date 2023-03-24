@@ -12,4 +12,6 @@ export interface userTriesTypes {
   won: boolean | null
   tries: Array<Array<string>>
   triesFeedback: Array<Array<charStatus>>
+  arrayPromptLength: number[]
+  promptLength: number
 }

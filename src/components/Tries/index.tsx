@@ -3,7 +3,7 @@ import { TriesContext } from 'contexts/TriesContext'
 import { useContext } from 'react'
 
 export const Tries = () => {
-  const { userInfo, onComplete } = useContext(TriesContext)
+  const { userInfo } = useContext(TriesContext)
 
   return (
     <div>
@@ -11,16 +11,8 @@ export const Tries = () => {
         // se o index do array !== currRow, coloca q ta inativo
         return (
           <InputStep
-            key={item}
-            length={[8, 8]}
-            userInfo={userInfo}
-            onComplete={onComplete}
+            key={idx}
             isRowActive={idx === userInfo?.currRow && userInfo.won === null}
-            blur={
-              userInfo.won === null
-                ? idx > userInfo?.currRow
-                : idx >= userInfo?.currRow
-            }
             rowIndex={idx}
           />
         )

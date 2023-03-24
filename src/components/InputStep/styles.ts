@@ -39,3 +39,8 @@ export const Space = styled.p`
   font-weight: 600;
   margin: 0 8px;
 `
+
+export const InputDiv = styled.div`
+  display: flex;
+  align-items: center;
+`
