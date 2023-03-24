@@ -18,12 +18,14 @@ export const Keyboard: FC = () => {
       for (let i = 0; i < userInfo.tries.length; i++) {
         if (
           !userInfo.solutionArray.includes(letter) &&
-          userInfo.tries[i].includes(letter)
+          userInfo.tries[i].includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
         ) {
           return 'opacity'
         } else if (
           userInfo.tries[i].includes(letter) &&
-          userInfo.solutionArray.includes(letter)
+          userInfo.solutionArray.includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
         ) {
           for (let j = 0; j < userInfo.solutionArray.length; j++) {
             if (
@@ -36,7 +38,10 @@ export const Keyboard: FC = () => {
         }
       }
       for (let i = 0; i < userInfo.tries.length; i++) {
-        if (userInfo.tries[i].includes(letter)) {
+        if (
+          userInfo.tries[i].includes(letter) &&
+          userInfo.triesFeedback[i].length !== 0
+        ) {
           return '#EEC272'
         }
       }
