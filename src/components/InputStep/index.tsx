@@ -26,23 +26,43 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   )
   const inputs = useRef<HTMLInputElement[]>([])
   const [inputFocused, setInputFocused] = useState(0)
+  console.log(inputFocused)
 
   useEffect(() => {
-    if (inputs.current.length) inputs.current[0].focus()
+    if (
+      inputs.current.length &&
+      userInfo !== undefined &&
+      userInfo.tries[userInfo.currRow] !== undefined &&
+      userInfo.tries[userInfo.currRow].every((key) => key === '')
+    ) {
+      console.log('entrou')
+
+      inputs.current[0].focus()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete])
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
       if (currentLetter === 'del' && inputFocused > 0) {
         console.log('entrou no 1')
-
         const newCode = [...code]
-        newCode[inputFocused - 1] = ''
-        if (userInfo !== undefined) {
-          userInfo.tries[rowIndex][inputFocused - 1] = ''
+
+        if (newCode[inputFocused] !== '') {
+          newCode[inputFocused] = ''
+          if (userInfo !== undefined) {
+            userInfo.tries[rowIndex][inputFocused] = ''
+          }
+          setCode(newCode)
+          inputs.current[inputFocused].focus()
+        } else {
+          newCode[inputFocused - 1] = ''
+          if (userInfo !== undefined) {
+            userInfo.tries[rowIndex][inputFocused - 1] = ''
+          }
+          setCode(newCode)
+          inputs.current[inputFocused - 1].focus()
         }
-        setCode(newCode)
-        inputs.current[inputFocused - 1].focus()
       } else if (
         currentLetter === 'ok' &&
         code.every((key) => key !== '') &&
@@ -112,10 +132,19 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
     if (e.code === 'Backspace' && !code[slot] && slot !== 0) {
       const newCode = [...code]
-      newCode[slot - 1] = ''
-      if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
-      setCode(newCode)
-      inputs.current[slot - 1].focus()
+      if (newCode[inputFocused] !== '') {
+        newCode[inputFocused] = ''
+        if (userInfo !== undefined) {
+          userInfo.tries[rowIndex][inputFocused] = ''
+        }
+        setCode(newCode)
+        inputs.current[inputFocused].focus()
+      } else {
+        newCode[slot - 1] = ''
+        if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
+        setCode(newCode)
+        inputs.current[slot - 1].focus()
+      }
     }
 
     if (e.code === 'Enter' && code.every((key) => key !== '')) {

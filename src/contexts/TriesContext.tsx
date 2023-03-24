@@ -162,9 +162,29 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
   const setNewLetter = (column: number, letter: string) => {
     if (userInfo !== undefined) {
-      const newUserInfo = userInfo
-      newUserInfo.tries[newUserInfo.currRow][column] = letter
-      setUserInfo(newUserInfo)
+      const newTries = [...userInfo.tries]
+      const newNewTries = newTries.map((row, rowIndex) => {
+        if (rowIndex === userInfo.currRow) {
+          return row.map((value, columnIndex) => {
+            if (columnIndex === column) {
+              return letter
+            } else {
+              return value
+            }
+          })
+        } else {
+          return row
+        }
+      })
+      // for (let i = userInfo.currRow + 1; i < newTries.length; i++) {
+      //   console.log(newTries[i][column])
+      //   newTries[i][column] = ''
+      //   console.log(newTries[i - 1][column])
+      // }
+      // console.log(newTries)
+      console.log({ ...userInfo, tries: [...newNewTries] })
+
+      setUserInfo({ ...userInfo, tries: [...newNewTries] })
     }
   }
 
