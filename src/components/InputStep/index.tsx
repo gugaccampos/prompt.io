@@ -18,7 +18,8 @@ interface InputStepT {
 }
 
 const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
-  const { currentLetter, wasKeyPressed, userInfo, onComplete } = useTries()
+  const { currentLetter, wasKeyPressed, userInfo, onComplete, setNewLetter } =
+    useTries()
 
   const [code, setCode] = useState(
     [...Array(userInfo?.promptLength)].map(() => '')
@@ -33,8 +34,21 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
       // console.log(inputFocused)
+      if (currentLetter === 'del') {
+        console.log('eentou')
 
-      processInput(currentLetter, inputFocused)
+        const newCode = [...code]
+        newCode[inputFocused - 1] = ''
+        if (userInfo !== undefined) {
+          userInfo.tries[rowIndex][inputFocused - 1] = ''
+        }
+        setCode(newCode)
+        inputs.current[inputFocused - 1].focus()
+      } else if (currentLetter === 'ok') {
+        onComplete(code)
+      } else {
+        processInput(currentLetter, inputFocused)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wasKeyPressed])
@@ -54,7 +68,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
     if (userInfo !== undefined && rowIndex === userInfo.currRow) {
       const newCode = [...code]
-      userInfo.tries[userInfo.currRow][slot] = key
+      setNewLetter(slot, key)
       // console.log('aaaa', userInfo.tries[userInfo?.currRow + 2][slot])
 
       newCode[slot] = key

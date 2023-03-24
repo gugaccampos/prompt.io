@@ -14,7 +14,7 @@ export const Keyboard: FC = () => {
   const { userInfo } = useContext(TriesContext)
 
   const keyColor = (letter: string) => {
-    if (userInfo !== undefined) {
+    if (userInfo !== undefined && userInfo.currRow > 0) {
       for (let i = 0; i < userInfo.tries.length; i++) {
         if (
           !userInfo.solutionArray.includes(letter) &&

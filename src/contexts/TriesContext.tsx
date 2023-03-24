@@ -19,6 +19,7 @@ interface TriesContextType {
   wasKeyPressed: boolean
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
+  setNewLetter: (column: number, letter: string) => void
   arePromptsLoading: boolean
   prompts: { image: string; prompt: string }[]
 }
@@ -166,6 +167,17 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         }
       }
       // console.log(userInfo.triesFeedback[userInfo.currRow])
+    }
+  }
+
+  const setNewLetter = (column: number, letter: string) => {
+    console.log('before', userInfo)
+
+    if (userInfo !== undefined) {
+      const newUserInfo = userInfo
+      newUserInfo.tries[newUserInfo.currRow][column] = letter
+      setUserInfo(newUserInfo)
+      console.log('after', newUserInfo)
     }
   }
 
@@ -330,7 +342,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         arePromptsLoading,
         prompts,
         onComplete,
-        onKeyPressed
+        onKeyPressed,
+        setNewLetter
       }}
     >
       {children}
