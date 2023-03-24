@@ -8,7 +8,7 @@ import {
   useRef,
   useState
 } from 'react'
-import { ContainerInputs, Input, Space } from './styles'
+import { ContainerInputs, Input, InputDiv, Space } from './styles'
 
 interface InputStepT {
   isRowActive: boolean
@@ -18,8 +18,6 @@ interface InputStepT {
 }
 
 const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
-  console.log('carregou o componentes')
-
   const { currentLetter, wasKeyPressed, userInfo, onComplete, setNewLetter } =
     useTries()
 
@@ -35,9 +33,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
-      // console.log(inputFocused)
       if (currentLetter === 'del' && inputFocused > 0) {
-        console.log('eentou')
+        console.log('entrou no 1')
 
         const newCode = [...code]
         newCode[inputFocused - 1] = ''
@@ -46,11 +43,21 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         }
         setCode(newCode)
         inputs.current[inputFocused - 1].focus()
-      } else if (currentLetter === 'ok') {
+      } else if (
+        currentLetter === 'ok' &&
+        code.every((key) => key !== '') &&
+        code.length === userInfo?.solutionArray.length
+      ) {
+        console.log('entrou no 2')
+        console.log(code)
+
         onComplete(code)
-        console.log('aaaaaentrou')
       } else if (currentLetter !== 'del' && currentLetter !== 'ok') {
+        console.log('entrou no 3')
+
         processInput(currentLetter, inputFocused)
+      } else if (currentLetter === 'ok' && userInfo !== undefined) {
+        inputs.current[inputFocused].focus()
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,30 +74,20 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       key = e.target.value
     }
 
-    // console.log(code)
-
     if (userInfo !== undefined && rowIndex === userInfo.currRow) {
       const newCode = [...code]
       setNewLetter(slot, key)
-      // console.log('aaaa', userInfo.tries[userInfo?.currRow + 2][slot])
 
       newCode[slot] = key
       setCode(newCode)
-      // console.log(newCode)
-
-      // console.log(rowIndex, code)
 
       if (slot !== userInfo?.promptLength - 1) {
-        // console.log('entrou no processInput')
-
         inputs.current[slot + 1].focus()
       }
     }
   }
 
   const renderInputColor = (idx: number) => {
-    // console.log('entrou')
-
     if (userInfo !== undefined) {
       if (userInfo.currRow > 0) {
         if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
@@ -132,10 +129,10 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         userInfo.tries[rowIndex].map((num, idx) => {
           if (userInfo.arrayPromptLength.find((curr) => curr === idx))
             return (
-              <>
-                <Space>-</Space>
+              <InputDiv key={`input-${idx}`}>
+                <Space key={`space-${idx}`}>-</Space>
                 <Input
-                  key={idx}
+                  key={`col-${idx}-row-${rowIndex}`}
                   disabled={!isRowActive}
                   blur={
                     userInfo.won === null
@@ -154,11 +151,11 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
-              </>
+              </InputDiv>
             )
           return (
             <Input
-              key={idx}
+              key={`col-${idx}-row-${rowIndex}`}
               disabled={!isRowActive}
               blur={
                 userInfo.won === null

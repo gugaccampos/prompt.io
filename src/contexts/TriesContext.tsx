@@ -108,7 +108,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const charEvaluation = (currTry: string[]) => {
     let letterAndCount: Pair[] = []
     letterAndCount[0] = [currTry[0], countOccurrences(currTry[0])]
-    // console.log(letterAndCount)
 
     // começa colocando todas como not in word
     if (userInfo !== undefined) {
@@ -124,14 +123,10 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
           letterAndCount.push([currTry[i], countOccurrences(currTry[i])])
         }
       }
-      // console.log(letterAndCount)
-
-      // console.log(userInfo.triesFeedback[userInfo.currRow])
 
       // coloca todas na posição certa como correct
       for (let i = 0; i < currTry.length; i++) {
         if (currTry[i] == userInfo.solutionArray[i]) {
-          // userInfo.triesFeedback[userInfo.currRow][i] = charStatus.CORRECT
           letterAndCount = subtractOccurrence(
             currTry[i],
             letterAndCount,
@@ -140,8 +135,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
           )
         }
       }
-
-      // console.log(userInfo.triesFeedback[userInfo.currRow])
 
       for (let i = 0; i < currTry.length; i++) {
         if (
@@ -160,24 +153,18 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
                 charStatus.WRONG_POSITION,
                 i
               )
-
-              // userInfo.triesFeedback[userInfo.currRow][i] = charStatus.WRONG_POSITION
             }
           }
         }
       }
-      // console.log(userInfo.triesFeedback[userInfo.currRow])
     }
   }
 
   const setNewLetter = (column: number, letter: string) => {
-    console.log('before', userInfo)
-
     if (userInfo !== undefined) {
       const newUserInfo = userInfo
       newUserInfo.tries[newUserInfo.currRow][column] = letter
       setUserInfo(newUserInfo)
-      console.log('after', newUserInfo)
     }
   }
 
@@ -198,7 +185,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   }
 
   const onComplete = (currTry: string[]) => {
-    // console.log(currTry, userInfo)
     if (currTry.length === userInfo?.solutionArray.length) {
       for (let i = 0; i < currTry.length; i++) {
         currTry[i] = currTry[i].toLowerCase()
@@ -206,7 +192,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
       charEvaluation(currTry)
       const userWin = didUserWin()
-      // console.log(userInfo.won)
 
       if (userInfo !== undefined) {
         for (let i = userInfo?.currRow + 1; i < 5; i++) {
@@ -215,7 +200,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
           }
         }
       }
-      console.log(userInfo?.triesFeedback)
 
       // confere se acertou
       // se nao, aumenta a row
@@ -224,11 +208,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
       let newState = userInfo!
       const newTries = newState?.tries
 
-      // console.log(newState.currRow)
-      // console.log(newTries[newState.currRow])
-
       newTries[newState.currRow] = currTry
-      // console.log(newTries)
 
       newState = {
         ...newState,
@@ -302,14 +282,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
       promptLength: formatedAllInputsLength.at(-1) || 0
     }
 
-    // console.log(newInfo)
-
     return setUserInfo(newInfo)
   }
-
-  // useEffect(() => {
-  //   console.log(userInfo)
-  // }, [userInfo])
 
   useEffect(() => {
     const getPrompts = async () => {
@@ -323,7 +297,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         >('/prompt')
 
         setPrompts(data)
-        // console.log(data[0])
         initializeUserInfo(data[0])
       } catch (error) {
         console.error(error)
