@@ -199,51 +199,53 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
   const onComplete = (currTry: string[]) => {
     // console.log(currTry, userInfo)
-    for (let i = 0; i < currTry.length; i++) {
-      currTry[i] = currTry[i].toLowerCase()
-    }
+    if (currTry.length === userInfo?.solutionArray.length) {
+      for (let i = 0; i < currTry.length; i++) {
+        currTry[i] = currTry[i].toLowerCase()
+      }
 
-    charEvaluation(currTry)
-    const userWin = didUserWin()
-    // console.log(userInfo.won)
+      charEvaluation(currTry)
+      const userWin = didUserWin()
+      // console.log(userInfo.won)
 
-    if (userInfo !== undefined) {
-      for (let i = userInfo?.currRow + 1; i < 5; i++) {
-        for (let j = 0; j < userInfo.solutionArray.length; j++) {
-          userInfo.tries[i][j] = ''
+      if (userInfo !== undefined) {
+        for (let i = userInfo?.currRow + 1; i < 5; i++) {
+          for (let j = 0; j < userInfo.solutionArray.length; j++) {
+            userInfo.tries[i][j] = ''
+          }
         }
       }
+      console.log(userInfo?.triesFeedback)
+
+      // confere se acertou
+      // se nao, aumenta a row
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      let newState = userInfo!
+      const newTries = newState?.tries
+
+      // console.log(newState.currRow)
+      // console.log(newTries[newState.currRow])
+
+      newTries[newState.currRow] = currTry
+      // console.log(newTries)
+
+      newState = {
+        ...newState,
+        currRow: newState.currRow + 1,
+        tries: newTries
+      }
+
+      if (userWin) {
+        newState.won = true
+        alert('ganhou')
+      } else if (newState.currRow == 5) {
+        newState.won = false
+        alert('perdeu')
+      }
+
+      setUserInfo(newState)
     }
-    console.log(userInfo?.triesFeedback)
-
-    // confere se acertou
-    // se nao, aumenta a row
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    let newState = userInfo!
-    const newTries = newState?.tries
-
-    // console.log(newState.currRow)
-    // console.log(newTries[newState.currRow])
-
-    newTries[newState.currRow] = currTry
-    // console.log(newTries)
-
-    newState = {
-      ...newState,
-      currRow: newState.currRow + 1,
-      tries: newTries
-    }
-
-    if (userWin) {
-      newState.won = true
-      alert('ganhou')
-    } else if (newState.currRow == 5) {
-      newState.won = false
-      alert('perdeu')
-    }
-
-    setUserInfo(newState)
   }
 
   const onKeyPressed = (letter: string) => {

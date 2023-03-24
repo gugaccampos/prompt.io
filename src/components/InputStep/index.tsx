@@ -18,6 +18,8 @@ interface InputStepT {
 }
 
 const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
+  console.log('carregou o componentes')
+
   const { currentLetter, wasKeyPressed, userInfo, onComplete, setNewLetter } =
     useTries()
 
@@ -34,7 +36,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
       // console.log(inputFocused)
-      if (currentLetter === 'del') {
+      if (currentLetter === 'del' && inputFocused > 0) {
         console.log('eentou')
 
         const newCode = [...code]
@@ -46,7 +48,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         inputs.current[inputFocused - 1].focus()
       } else if (currentLetter === 'ok') {
         onComplete(code)
-      } else {
+        console.log('aaaaaentrou')
+      } else if (currentLetter !== 'del' && currentLetter !== 'ok') {
         processInput(currentLetter, inputFocused)
       }
     }
