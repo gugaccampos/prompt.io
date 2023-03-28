@@ -5,13 +5,14 @@ export const Container = styled.div`
   grid-template-columns: 1fr;
   margin: 0 auto;
 
-  width: 90%;
-  max-width: 300px;
+  width: 100%;
+  max-width: 256px;
 `
 
 export const Image = styled.div<{ src: string }>`
   background-size: cover;
-  height: 225px;
+  height: 256px;
+  border-radius: 8px;
   min-width: 100%;
 
   background-image: ${({ src }) => `url(${src})`};

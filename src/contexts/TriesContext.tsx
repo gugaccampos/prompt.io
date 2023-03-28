@@ -317,7 +317,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         >('/prompt')
 
         setPrompts(data)
-        initializeUserInfo(data[0])
+        initializeUserInfo(data[1])
       } catch (error) {
         console.error(error)
       } finally {

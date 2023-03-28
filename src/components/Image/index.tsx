@@ -14,7 +14,7 @@ export const Image: FC<ImageT> = () => {
     <S.Container>
       {prompts.length !== 0 && (
         <>
-          <S.Image src={`data:image/png;base64, ${prompts[0].image}`} />
+          <S.Image src={`data:image/png;base64, ${prompts[1].image}`} />
         </>
       )}
     </S.Container>
