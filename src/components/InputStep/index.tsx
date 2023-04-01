@@ -150,6 +150,18 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
     }
+
+    if (
+      e.code === 'ArrowRight' &&
+      userInfo !== undefined &&
+      inputFocused < userInfo?.promptLength - 1
+    ) {
+      inputs.current[inputFocused + 1].focus()
+    }
+
+    if (e.code === 'ArrowLeft' && userInfo !== undefined && inputFocused > 0) {
+      inputs.current[inputFocused - 1].focus()
+    }
   }
 
   return (
