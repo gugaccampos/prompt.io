@@ -26,7 +26,6 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   )
   const inputs = useRef<HTMLInputElement[]>([])
   const [inputFocused, setInputFocused] = useState(0)
-  console.log(inputFocused)
 
   useEffect(() => {
     if (
@@ -35,8 +34,6 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       userInfo.tries[userInfo.currRow] !== undefined &&
       userInfo.tries[userInfo.currRow].every((key) => key === '')
     ) {
-      console.log('entrou')
-
       inputs.current[0].focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,7 +42,6 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
       if (currentLetter === 'del' && inputFocused > 0) {
-        console.log('entrou no 1')
         const newCode = [...code]
 
         if (newCode[inputFocused] !== '') {
@@ -68,13 +64,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         code.every((key) => key !== '') &&
         code.length === userInfo?.solutionArray.length
       ) {
-        console.log('entrou no 2')
-        console.log(code)
-
         onComplete(code)
       } else if (currentLetter !== 'del' && currentLetter !== 'ok') {
-        console.log('entrou no 3')
-
         processInput(currentLetter, inputFocused)
       } else if (currentLetter === 'ok' && userInfo !== undefined) {
         inputs.current[inputFocused].focus()
@@ -107,10 +98,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         userInfo.tries[userInfo.currRow][counter + 1] !== ''
       ) {
         counter += 1
-        console.log(counter)
-        console.log(userInfo.tries[userInfo.currRow])
       }
-      console.log(userInfo.tries[userInfo.currRow][counter + 1])
 
       if (counter !== userInfo?.promptLength - 1) {
         inputs.current[counter + 1].focus()
@@ -145,7 +133,14 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       console.log('chamou backspace')
 
       const newCode = [...code]
-      if (newCode[inputFocused] !== '') {
+      if (
+        userInfo !== undefined &&
+        userInfo.tries[rowIndex][inputFocused] !== ''
+      ) {
+        console.log('entrou no 1')
+        console.log(newCode[inputFocused])
+        console.log(inputFocused)
+
         newCode[inputFocused] = ''
         if (userInfo !== undefined) {
           userInfo.tries[rowIndex][inputFocused] = ''
@@ -153,11 +148,14 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         setCode(newCode)
         inputs.current[inputFocused].focus()
       } else {
+        console.log('entrou no 2')
+
         newCode[slot - 1] = ''
         if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
         setCode(newCode)
         inputs.current[slot - 1].focus()
       }
+      console.log('slot atual', slot)
     } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
     } else if (
