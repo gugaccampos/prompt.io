@@ -101,8 +101,19 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       newCode[slot] = key
       setCode(newCode)
 
-      if (slot !== userInfo?.promptLength - 1) {
-        inputs.current[slot + 1].focus()
+      let counter = slot
+      while (
+        counter !== userInfo?.promptLength - 1 &&
+        userInfo.tries[userInfo.currRow][counter + 1] !== ''
+      ) {
+        counter += 1
+        console.log(counter)
+        console.log(userInfo.tries[userInfo.currRow])
+      }
+      console.log(userInfo.tries[userInfo.currRow][counter + 1])
+
+      if (counter !== userInfo?.promptLength - 1) {
+        inputs.current[counter + 1].focus()
       }
     }
   }
@@ -130,7 +141,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
-    if (e.code === 'Backspace' && !code[slot] && slot !== 0) {
+    if (e.code === 'Backspace' && slot !== 0) {
+      console.log('chamou backspace')
+
       const newCode = [...code]
       if (newCode[inputFocused] !== '') {
         newCode[inputFocused] = ''
@@ -145,22 +158,22 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         setCode(newCode)
         inputs.current[slot - 1].focus()
       }
-    }
-
-    if (e.code === 'Enter' && code.every((key) => key !== '')) {
+    } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
-    }
-
-    if (
+    } else if (
       e.code === 'ArrowRight' &&
       userInfo !== undefined &&
       inputFocused < userInfo?.promptLength - 1
     ) {
       inputs.current[inputFocused + 1].focus()
-    }
-
-    if (e.code === 'ArrowLeft' && userInfo !== undefined && inputFocused > 0) {
+    } else if (
+      e.code === 'ArrowLeft' &&
+      userInfo !== undefined &&
+      inputFocused > 0
+    ) {
       inputs.current[inputFocused - 1].focus()
+    } else if (e.keyCode >= 65 && e.keyCode <= 90) {
+      processInput(String(e.key), inputFocused)
     }
   }
 
@@ -185,7 +198,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   maxLength={1}
                   value={num}
                   autoFocus={!code[0].length && idx === 0}
-                  onChange={(e) => processInput(e, idx)}
+                  // onChange={(e) => processInput(e, idx)}
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
                   onFocus={() => setInputFocused(idx)}
@@ -208,7 +221,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               maxLength={1}
               value={num}
               autoFocus={!code[0].length && idx === 0}
-              onChange={(e) => processInput(e, idx)}
+              // onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
               onFocus={() => setInputFocused(idx)}

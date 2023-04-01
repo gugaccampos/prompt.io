@@ -176,13 +176,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
           return row
         }
       })
-      // for (let i = userInfo.currRow + 1; i < newTries.length; i++) {
-      //   console.log(newTries[i][column])
-      //   newTries[i][column] = ''
-      //   console.log(newTries[i - 1][column])
-      // }
-      // console.log(newTries)
-      console.log({ ...userInfo, tries: [...newNewTries] })
 
       setUserInfo({ ...userInfo, tries: [...newNewTries] })
     }
