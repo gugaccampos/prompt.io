@@ -8,13 +8,13 @@ interface ImageT {
 }
 
 export const Image: FC<ImageT> = () => {
-  const { prompts } = useTries()
+  const { prompts, level } = useTries()
 
   return (
     <S.Container>
       {prompts.length !== 0 && (
         <>
-          <S.Image src={`data:image/png;base64, ${prompts[1].image}`} />
+          <S.Image src={`data:image/png;base64, ${prompts[level].image}`} />
         </>
       )}
     </S.Container>

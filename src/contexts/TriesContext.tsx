@@ -1,7 +1,9 @@
 import { charStatus, userTriesTypes } from 'components/Tries/types'
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState
@@ -15,8 +17,10 @@ interface TriesContextProviderProps {
 
 interface TriesContextType {
   userInfo: userTriesTypes | undefined
+  level: number
   currentLetter: string
   wasKeyPressed: boolean
+  setLevel: Dispatch<SetStateAction<number>>
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
   setNewLetter: (column: number, letter: string) => void
@@ -28,7 +32,7 @@ export const TriesContext = createContext({} as TriesContextType)
 
 export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [userInfo, setUserInfo] = useState<userTriesTypes>()
-
+  const [level, setLevel] = useState(0)
   const [arePromptsLoading, setArePromptsLoading] = useState(true)
   const [prompts, setPrompts] = useState<{ image: string; prompt: string }[]>(
     []
@@ -41,6 +45,17 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   //     setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
   //   }
   // }, [])
+
+  useEffect(() => {
+    if (localStorage.getItem('level') !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      setLevel(Number(localStorage.getItem('level')))
+      initializeUserInfo(prompts[Number(localStorage.getItem('level'))])
+    } else {
+      setLevel(0)
+      initializeUserInfo(prompts[0])
+    }
+  }, [prompts])
 
   // useEffect(() => {
   //   // chamada ao back
@@ -59,6 +74,11 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   // useEffect(() => {
   //   localStorage.setItem('prompt', JSON.stringify(userInfo))
   // }, [userInfo])
+
+  useEffect(() => {
+    localStorage.setItem('level', String(level))
+    initializeUserInfo(prompts[level])
+  }, [prompts, level])
 
   // Panguins dincando
   // Pinguins Felizes
@@ -262,40 +282,43 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     // won: boolean | null
     // tries: Array<Array<string>>
     // triesFeedback: Array<Array<charStatus>>
+    if (prompt) {
+      const myPrompt = prompt.prompt
+      const solutionArray = prompt.prompt
+        .split('')
+        .filter((curr) => curr !== ' ')
+      const emptySolutionArray = prompt.prompt
+        .split('')
+        .filter((curr) => curr !== ' ')
+        .map(() => '')
 
-    const myPrompt = prompt.prompt
-    const solutionArray = prompt.prompt.split('').filter((curr) => curr !== ' ')
-    const emptySolutionArray = prompt.prompt
-      .split('')
-      .filter((curr) => curr !== ' ')
-      .map(() => '')
+      let contador = 0
 
-    let contador = 0
+      const arrayLengths = prompt.prompt.split(' ').map((curr) => curr.length)
+      const formatedAllInputsLength = arrayLengths.map((curr, idx) => {
+        if (idx === 0) {
+          contador = curr
+          return curr
+        }
+        contador += curr
 
-    const arrayLengths = prompt.prompt.split(' ').map((curr) => curr.length)
-    const formatedAllInputsLength = arrayLengths.map((curr, idx) => {
-      if (idx === 0) {
-        contador = curr
-        return curr
+        return contador
+      })
+
+      const newInfo = {
+        currRow: 0,
+        won: null,
+        solution: myPrompt,
+        solutionArray,
+        triesFeedback: [[], [], [], [], []],
+        currTry: emptySolutionArray,
+        tries: [...new Array(5)].map(() => emptySolutionArray),
+        arrayPromptLength: formatedAllInputsLength,
+        promptLength: formatedAllInputsLength.at(-1) || 0
       }
-      contador += curr
 
-      return contador
-    })
-
-    const newInfo = {
-      currRow: 0,
-      won: null,
-      solution: myPrompt,
-      solutionArray,
-      triesFeedback: [[], [], [], [], []],
-      currTry: emptySolutionArray,
-      tries: [...new Array(5)].map(() => emptySolutionArray),
-      arrayPromptLength: formatedAllInputsLength,
-      promptLength: formatedAllInputsLength.at(-1) || 0
+      return setUserInfo(newInfo)
     }
-
-    return setUserInfo(newInfo)
   }
 
   useEffect(() => {
@@ -310,7 +333,13 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         >('/prompt')
 
         setPrompts(data)
-        initializeUserInfo(data[1])
+        const localStorageLevel = Number(localStorage.getItem('level'))
+
+        if (localStorageLevel) {
+          initializeUserInfo(data[localStorageLevel])
+        } else {
+          initializeUserInfo(data[0])
+        }
       } catch (error) {
         console.error(error)
       } finally {
@@ -329,6 +358,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         wasKeyPressed,
         arePromptsLoading,
         prompts,
+        level,
+        setLevel,
         onComplete,
         onKeyPressed,
         setNewLetter
