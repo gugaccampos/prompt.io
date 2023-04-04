@@ -9,6 +9,8 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
 
   margin: 2px;
   background: ${({ theme, color }) => color || theme.colors.bgLight};
+  background: ${({ theme, color }) =>
+    color === 'opacity' && theme.colors.black};
 
   text-transform: uppercase;
   text-align: center;
@@ -21,7 +23,7 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
     cursor: pointer;
   }
 
-  opacity: ${(props) => (props.blur ? 0.4 : 1)};
+  opacity: ${(props) => (props.blur || props.color === 'opacity' ? 0.4 : 1)};
 
   @media (max-width: 600px) {
     width: 24px;

@@ -8,7 +8,8 @@ export const Input = styled.input<{ color?: string }>`
   border-radius: 4px;
 
   margin: 2px;
-  background: ${({ theme, color }) => color || theme.colors.bgLight};
+  background: ${({ color }) => color || 'black'};
+  opacity: ${({ color }) => (color ? 1 : 0.4)};
 
   text-transform: uppercase;
   text-align: center;

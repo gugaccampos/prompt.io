@@ -120,7 +120,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
             return '#EEC272'
 
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
-            return undefined
+            return 'opacity'
         }
       }
     }
