@@ -283,8 +283,10 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     // tries: Array<Array<string>>
     // triesFeedback: Array<Array<charStatus>>
     if (prompt) {
-      const myPrompt = prompt.prompt
+      const myPrompt = prompt.prompt.toLowerCase()
+
       const solutionArray = prompt.prompt
+        .toLowerCase()
         .split('')
         .filter((curr) => curr !== ' ')
       const emptySolutionArray = prompt.prompt

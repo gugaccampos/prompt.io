@@ -34,9 +34,7 @@ export const Topbar: FC = () => {
           role="button"
           aria-label="close modal"
           onClick={() => setIsOpen(false)}
-        >
-          X
-        </S.Close>
+        ></S.Close>
         <S.TutorialContainer>
           <S.TutorialText>
             Descubra o script que gerou a imagem em 5 tentantivas. Depois de

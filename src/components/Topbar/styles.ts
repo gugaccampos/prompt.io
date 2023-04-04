@@ -107,15 +107,12 @@ const modalModifiers = {
 
 export const Close = styled.div`
   ${() => css`
-    color: white;
     position: absolute;
     left: 0;
     top: 0;
-    right: 8;
     cursor: pointer;
     width: 100%;
     height: 100%;
-    text-align: right;
   `}
 `
 
