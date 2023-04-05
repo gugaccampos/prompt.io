@@ -17,26 +17,27 @@ interface TriesContextProviderProps {
 
 interface TriesContextType {
   userInfo: userTriesTypes | undefined
-  level: number
   currentLetter: string
   wasKeyPressed: boolean
-  setLevel: Dispatch<SetStateAction<number>>
+  level: string | undefined
+  setLevel: Dispatch<SetStateAction<string | undefined>>
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
   setNewLetter: (column: number, letter: string) => void
   arePromptsLoading: boolean
-  prompts: { image: string; prompt: string }[]
+  prompts: { key: string }[]
+  currentPrompt?: { image: string; prompt: string }
 }
 
 export const TriesContext = createContext({} as TriesContextType)
 
 export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [userInfo, setUserInfo] = useState<userTriesTypes>()
-  const [level, setLevel] = useState(0)
+  const [level, setLevel] = useState<string | undefined>()
   const [arePromptsLoading, setArePromptsLoading] = useState(true)
-  const [prompts, setPrompts] = useState<{ image: string; prompt: string }[]>(
-    []
-  )
+  const [prompts, setPrompts] = useState<{ key: string }[]>([])
+  const [currentPrompt, setCurrentPrompt] =
+    useState<{ image: string; prompt: string }>()
 
   // Pega do localStorage se já tiver informação lá
   // useEffect(() => {
@@ -45,17 +46,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   //     setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
   //   }
   // }, [])
-
-  useEffect(() => {
-    if (localStorage.getItem('level') !== null) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      setLevel(Number(localStorage.getItem('level')))
-      initializeUserInfo(prompts[Number(localStorage.getItem('level'))])
-    } else {
-      setLevel(0)
-      initializeUserInfo(prompts[0])
-    }
-  }, [prompts])
 
   // useEffect(() => {
   //   // chamada ao back
@@ -74,11 +64,6 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   // useEffect(() => {
   //   localStorage.setItem('prompt', JSON.stringify(userInfo))
   // }, [userInfo])
-
-  useEffect(() => {
-    localStorage.setItem('level', String(level))
-    initializeUserInfo(prompts[level])
-  }, [prompts, level])
 
   // Panguins dincando
   // Pinguins Felizes
@@ -324,24 +309,59 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   }
 
   useEffect(() => {
+    const getPrompt = async (id: string) => {
+      try {
+        const { data } = await api.get<{ prompt: string; image: string }>(
+          `/prompt/${id}`
+        )
+
+        initializeUserInfo(data)
+        setCurrentPrompt(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    if (level !== undefined) {
+      localStorage.setItem('level', String(level))
+      getPrompt(level)
+    }
+  }, [prompts, level])
+
+  useEffect(() => {
+    const getPrompt = async (id: string) => {
+      try {
+        const { data } = await api.get<{ prompt: string; image: string }>(
+          `/prompt/${id}`
+        )
+
+        return data
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     const getPrompts = async () => {
       try {
         setArePromptsLoading(true)
         const { data } = await api.get<
           {
-            image: string
-            prompt: string
+            key: string
           }[]
         >('/prompt')
 
         setPrompts(data)
-        const localStorageLevel = Number(localStorage.getItem('level'))
 
-        if (localStorageLevel) {
-          initializeUserInfo(data[localStorageLevel])
-        } else {
-          initializeUserInfo(data[0])
-        }
+        const localStorageLevel = localStorage.getItem('level')
+
+        if (localStorageLevel) setLevel(localStorageLevel)
+
+        const prompt = await getPrompt(
+          localStorageLevel ? localStorageLevel : data[0].key
+        )
+
+        setCurrentPrompt(prompt)
+        if (prompt) initializeUserInfo(prompt)
       } catch (error) {
         console.error(error)
       } finally {
@@ -360,6 +380,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         wasKeyPressed,
         arePromptsLoading,
         prompts,
+        currentPrompt,
         level,
         setLevel,
         onComplete,

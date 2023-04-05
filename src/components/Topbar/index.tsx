@@ -10,12 +10,15 @@ export const Topbar: FC = () => {
   // const hasNewPrompt = prompts[level + 1] !== undefined
 
   const nextLevel = () => {
-    if (level + 1 === prompts.length) {
-      setLevel(0)
-    } else {
-      setLevel((state) => state + 1)
-    }
+    const index = prompts.findIndex((object) => {
+      return object.key === level
+    })
+
+    if (prompts.at(index + 1)) {
+      setLevel(prompts[index + 1].key)
+    } else setLevel(prompts[0].key)
   }
+
   return (
     <S.Container>
       <S.LogoContainer>
