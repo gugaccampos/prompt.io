@@ -9,6 +9,7 @@ import {
   useState
 } from 'react'
 import { ContainerInputs, Input, InputDiv, Space } from './styles'
+import { useTheme } from 'styled-components'
 
 interface InputStepT {
   isRowActive: boolean
@@ -18,8 +19,15 @@ interface InputStepT {
 }
 
 const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
-  const { currentLetter, wasKeyPressed, userInfo, onComplete, setNewLetter } =
-    useTries()
+  const theme = useTheme()
+  const {
+    currentLetter,
+    wasKeyPressed,
+    userInfo,
+    isContrast,
+    onComplete,
+    setNewLetter
+  } = useTries()
 
   const [code, setCode] = useState(
     [...Array(userInfo?.promptLength)].map(() => '')
@@ -111,13 +119,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       if (userInfo.currRow > 0) {
         if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
-            return '#3AA394'
+            return isContrast ? theme.colors.green : theme.colors.blue
           }
 
           if (
             userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION
           )
-            return '#EEC272'
+            return isContrast ? theme.colors.yellow : theme.colors.orange
 
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
             return 'opacity'

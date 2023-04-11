@@ -26,7 +26,7 @@ export const Text = styled.h1`
   margin: 0 80px;
 `
 
-export const TutorialButton = styled.button`
+export const ButtonContainer = styled.button`
   background-color: transparent;
 
   outline: none;
@@ -36,7 +36,6 @@ export const TutorialButton = styled.button`
 
   padding: 0 10px;
   height: 40px;
-  margin-right: 40px;
 
   cursor: pointer;
 
@@ -130,10 +129,73 @@ export const TutorialContainer = styled.div`
 
 export const TutorialText = styled.text``
 
-export const TutorialExamples = styled.div``
+export const TutorialExamples = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
 
 export const TutorialExamplesText = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `
+
+export const ConfigModal = styled.div<ModalProps>`
+  ${({ isOpen }) => css`
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 0.3s ease;
+
+    ${isOpen && modalModifiers.open()}
+    ${!isOpen && modalModifiers.close()}
+  `}
+`
+
+export const ConfigClose = styled.div`
+  color: white;
+  cursor: pointer;
+  width: 10px;
+  display: flex;
+  align-self: flex-end;
+`
+export const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 30px;
+`
+
+export const ConfigContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #302c42;
+  border-radius: 10px;
+  width: 40%;
+  height: 70%;
+  padding: 12px 32px;
+  font-size: 2rem;
+`
+export const ConfigDaltonico = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 35%;
+`
+
+export const ConfigText = styled.text``
+
+export const Devs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
+export const Termo = styled.div``

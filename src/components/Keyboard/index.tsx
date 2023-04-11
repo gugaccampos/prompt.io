@@ -3,6 +3,7 @@ import { charStatus } from 'components/Tries/types'
 import { TriesContext } from 'contexts/TriesContext'
 import { FC, useContext } from 'react'
 import * as S from './styles'
+import { useTheme } from 'styled-components'
 
 const rows = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -11,7 +12,8 @@ const rows = [
 ]
 
 export const Keyboard: FC = () => {
-  const { userInfo } = useContext(TriesContext)
+  const theme = useTheme()
+  const { userInfo, isContrast } = useContext(TriesContext)
 
   const keyColor = (letter: string) => {
     if (userInfo !== undefined && userInfo.currRow > 0) {
@@ -32,7 +34,7 @@ export const Keyboard: FC = () => {
               userInfo.solutionArray[j] == letter &&
               userInfo.triesFeedback[i][j] == charStatus.CORRECT
             ) {
-              return '#3AA394'
+              return isContrast ? theme.colors.green : theme.colors.blue
             }
           }
         }
@@ -42,7 +44,7 @@ export const Keyboard: FC = () => {
           userInfo.tries[i].includes(letter) &&
           userInfo.triesFeedback[i].length !== 0
         ) {
-          return '#EEC272'
+          return isContrast ? theme.colors.yellow : theme.colors.orange
         }
       }
     }

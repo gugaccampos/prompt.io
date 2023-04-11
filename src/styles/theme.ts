@@ -11,7 +11,9 @@ export const theme = {
     grey: '#E3E3E3',
     black: '#484C4F',
     yellow: '#EEC272',
-    green: '#3AA394'
+    green: '#3AA394',
+    blue: '#0197f6',
+    orange: '#e36322'
   },
   fonts: {
     family:

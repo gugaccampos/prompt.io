@@ -20,6 +20,8 @@ interface TriesContextType {
   currentLetter: string
   wasKeyPressed: boolean
   level: string | undefined
+  isContrast: boolean
+  onSetIsContrast: () => void
   setLevel: Dispatch<SetStateAction<string | undefined>>
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
@@ -38,6 +40,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [prompts, setPrompts] = useState<{ key: string }[]>([])
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
+  const [isContrast, setIsContrast] = useState(true)
 
   // Pega do localStorage se já tiver informação lá
   // useEffect(() => {
@@ -70,6 +73,12 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
   const [currentLetter, setCurrentLetter] = useState('')
   const [wasKeyPressed, setWasKeyPressed] = useState(false)
+
+  const onSetIsContrast = () => {
+    setIsContrast((state) => {
+      return !state
+    })
+  }
 
   const subtractOccurrence = (
     letter: string,
@@ -382,6 +391,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         prompts,
         currentPrompt,
         level,
+        isContrast,
+        onSetIsContrast,
         setLevel,
         onComplete,
         onKeyPressed,

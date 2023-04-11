@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import * as S from './styles'
+import { useTheme } from 'styled-components'
 
 interface InputT {
   space?: boolean
@@ -14,9 +15,11 @@ export const Input: FC<InputT> = ({
   disabled = false,
   space = false
 }) => {
+  const tema = useTheme()
+
   const renderInputColor = () => {
-    if (rightPlace) return '#3AA394'
-    if (rightKey) return '#EEC272'
+    if (rightPlace) return tema.colors.green
+    if (rightKey) return tema.colors.yellow
 
     return undefined
   }
