@@ -51,8 +51,8 @@ export const Topbar: FC = () => {
         ></S.Close>
         <S.TutorialContainer>
           <S.TutorialText>
-            Descubra o prompt que gerou a imagem em 5 tentantivas. Depois de
-            cada tentativa, as peças mostram o quão perto você está da resposta
+            Descubra o prompt que gerou a imagem em 5 tentativas. Depois de cada
+            tentativa, as peças mostram o quão perto você está da resposta
             correta.
           </S.TutorialText>
 
