@@ -51,8 +51,8 @@ export const Topbar: FC = () => {
         ></S.Close>
         <S.TutorialContainer>
           <S.TutorialText>
-            Descubra o script que gerou a imagem em 5 tentantivas. Depois de
-            cada tentativa as peças mostram o quão perto você está da resposta
+            Descubra o prompt que gerou a imagem em 5 tentantivas. Depois de
+            cada tentativa, as peças mostram o quão perto você está da resposta
             correta.
           </S.TutorialText>
 
@@ -83,7 +83,7 @@ export const Topbar: FC = () => {
               color={isContrast ? theme.colors.green : theme.colors.blue}
             />
             <S.TutorialText>
-              Significa que essa letra pertence à palavra e está na posição
+              Significa que essa letra pertence à frase e está na posição
               correta
             </S.TutorialText>
           </S.TutorialExamplesText>
@@ -112,7 +112,7 @@ export const Topbar: FC = () => {
               color={isContrast ? theme.colors.yellow : theme.colors.orange}
             />
             <S.TutorialText>
-              Significa que essa letra pertence à palavra, mas em outra posição
+              Significa que essa letra pertence à frase, mas em outra posição
             </S.TutorialText>
           </S.TutorialExamplesText>
 
@@ -135,18 +135,16 @@ export const Topbar: FC = () => {
           <S.TutorialExamplesText>
             <Key content={'C'} color={'opacity'} />
             <S.TutorialText>
-              Significa que essa letra não pertence à palavra
+              Significa que essa letra não pertence à frase
             </S.TutorialText>
           </S.TutorialExamplesText>
 
-          <S.TutorialText>
-            As palavras podem ter letras repetidas
-          </S.TutorialText>
+          <S.TutorialText>As frases podem ter letras repetidas</S.TutorialText>
 
           <S.TutorialExamplesText>
             <S.NextButton>PRÓXIMO</S.NextButton>
             <S.TutorialText>
-              Este botão gera uma nova imagem e um novo script para ser acertado
+              Este botão gera uma nova imagem e um novo prompt para ser acertado
             </S.TutorialText>
           </S.TutorialExamplesText>
         </S.TutorialContainer>
