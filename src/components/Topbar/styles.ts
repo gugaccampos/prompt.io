@@ -163,9 +163,13 @@ export const ConfigModal = styled.div<ModalProps>`
 export const ConfigClose = styled.div`
   color: white;
   cursor: pointer;
-  width: 10px;
+  width: fit-content;
   display: flex;
   align-self: flex-end;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `
 export const Buttons = styled.div`
   display: flex;
@@ -188,6 +192,11 @@ export const ConfigDaltonico = styled.div`
   display: flex;
   align-items: center;
   gap: 35%;
+
+  input {
+    width: 2rem;
+    cursor: pointer;
+  }
 `
 
 export const ConfigText = styled.text``
@@ -196,6 +205,12 @@ export const Devs = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  a {
+    display: inline;
+    color: white;
+    width: fit-content;
+  }
 `
 
 export const Termo = styled.div``

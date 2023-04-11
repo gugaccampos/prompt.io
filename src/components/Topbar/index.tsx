@@ -112,7 +112,7 @@ export const Topbar: FC = () => {
               color={isContrast ? theme.colors.yellow : theme.colors.orange}
             />
             <S.TutorialText>
-              Significa que essa letra pertence à palavra mas em outra posição
+              Significa que essa letra pertence à palavra, mas em outra posição
             </S.TutorialText>
           </S.TutorialExamplesText>
 
@@ -185,7 +185,6 @@ export const Topbar: FC = () => {
               href="https://github.com/gugaccampos"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#fff' }}
             >
               Gustavo Campos
             </a>
@@ -193,7 +192,6 @@ export const Topbar: FC = () => {
               href="https://github.com/lucasacioly"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#fff' }}
             >
               Lucas Acioly
             </a>
@@ -201,7 +199,6 @@ export const Topbar: FC = () => {
               href="https://github.com/lucasgmelo"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#fff' }}
             >
               Lucas Melo
             </a>
@@ -209,7 +206,6 @@ export const Topbar: FC = () => {
               href="https://github.com/Matheusfrej"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#fff' }}
             >
               Matheus Frej
             </a>
@@ -217,7 +213,6 @@ export const Topbar: FC = () => {
               href="https://github.com/RodrigoMesel"
               target="_blank"
               rel="noreferrer"
-              style={{ color: '#fff' }}
             >
               Rodrigo Mesel
             </a>
