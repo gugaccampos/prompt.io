@@ -191,7 +191,7 @@ export const ConfigContainer = styled.div`
 export const ConfigDaltonico = styled.div`
   display: flex;
   align-items: center;
-  gap: 35%;
+  justify-content: space-between;
 
   input {
     width: 2rem;

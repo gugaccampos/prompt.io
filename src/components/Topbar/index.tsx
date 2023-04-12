@@ -6,6 +6,7 @@ import { Key } from 'components/Key'
 import { useTheme } from 'styled-components'
 import { Space } from 'components/InputStep/styles'
 import { Gear } from '@phosphor-icons/react'
+import Toggle from 'components/Toggle'
 
 export const Topbar: FC = () => {
   const { prompts, level, setLevel, isContrast, onSetIsContrast } = useTries()
@@ -164,7 +165,7 @@ export const Topbar: FC = () => {
             X
           </S.ConfigClose>
           <S.ConfigDaltonico>
-            <S.ConfigText>Ativar o modo de alto contraste</S.ConfigText>
+            <S.ConfigText>Alto Contraste:</S.ConfigText>
             {/* <Toggle
               onChange={() => onSetIsContrast()}
               name={''}
@@ -174,7 +175,7 @@ export const Topbar: FC = () => {
               labelRight={''}
               labelLeft={''}
             /> */}
-            <input type="checkbox" onChange={() => onSetIsContrast()}></input>
+            <Toggle isOn={!isContrast} handleToggle={onSetIsContrast} />
           </S.ConfigDaltonico>
 
           <S.Devs>

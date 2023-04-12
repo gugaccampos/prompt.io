@@ -1,3 +1,4 @@
+import { EndGame } from 'components/EndGame'
 import { Image } from 'components/Image'
 import { Keyboard } from 'components/Keyboard'
 import { Topbar } from 'components/Topbar'
@@ -13,6 +14,7 @@ export const Default = () => {
       />
       <Tries />
       <Keyboard />
+      <EndGame />
     </>
   )
 }

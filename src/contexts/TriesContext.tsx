@@ -245,10 +245,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
       if (userWin) {
         newState.won = true
-        alert('ganhou')
       } else if (newState.currRow == 5) {
         newState.won = false
-        alert('perdeu')
       }
 
       setUserInfo(newState)
