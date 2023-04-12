@@ -138,17 +138,11 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
     if (e.code === 'Backspace' && slot !== 0) {
-      console.log('chamou backspace')
-
       const newCode = [...code]
       if (
         userInfo !== undefined &&
         userInfo.tries[rowIndex][inputFocused] !== ''
       ) {
-        console.log('entrou no 1')
-        console.log(newCode[inputFocused])
-        console.log(inputFocused)
-
         newCode[inputFocused] = ''
         if (userInfo !== undefined) {
           userInfo.tries[rowIndex][inputFocused] = ''
@@ -156,14 +150,11 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
         setCode(newCode)
         inputs.current[inputFocused].focus()
       } else {
-        console.log('entrou no 2')
-
         newCode[slot - 1] = ''
         if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
         setCode(newCode)
         inputs.current[slot - 1].focus()
       }
-      console.log('slot atual', slot)
     } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
     } else if (

@@ -9,6 +9,24 @@ export const LoaderContainer = styled.div`
   gap: 10px;
   align-items: center;
   justify-content: center;
+
+  button {
+    padding: 8px 12px;
+    outline: none;
+    border: none;
+
+    font-size: 1.6rem;
+    border-radius: 4px;
+    margin-top: 4px;
+
+    cursor: pointer;
+
+    background: ${(props) => props.theme.colors.secondary};
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
 `
 
 export const Loader = styled.span`

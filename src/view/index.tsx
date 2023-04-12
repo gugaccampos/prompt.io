@@ -7,7 +7,19 @@ import { useTries } from 'contexts/TriesContext'
 import * as S from './styles'
 
 export const Default = () => {
-  const { arePromptsLoading } = useTries()
+  const { arePromptsLoading, promptError } = useTries()
+
+  if (promptError)
+    return (
+      <S.LoaderContainer>
+        <h1>😢</h1>
+        <p>
+          An error has occurred. Next time we will ask the AI not to confuse the
+          instructions.
+        </p>
+        <button>Reload page</button>
+      </S.LoaderContainer>
+    )
 
   if (arePromptsLoading)
     return (

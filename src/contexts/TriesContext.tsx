@@ -18,6 +18,7 @@ interface TriesContextType {
   currentLetter: string
   wasKeyPressed: boolean
   isContrast: boolean
+  promptError: boolean
   onSetIsContrast: () => void
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
@@ -31,6 +32,7 @@ export const TriesContext = createContext({} as TriesContextType)
 export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [userInfo, setUserInfo] = useState<userTriesTypes>()
   const [arePromptsLoading, setArePromptsLoading] = useState(true)
+  const [promptError, setPromptError] = useState(false)
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
   const [isContrast, setIsContrast] = useState(true)
@@ -299,6 +301,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     const getPrompt = async () => {
       try {
         setArePromptsLoading(true)
+        setPromptError(false)
         const { data } = await api.get<{ prompt: string; image: string }>(
           `/prompt`
         )
@@ -306,7 +309,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         initializeUserInfo(data)
         return setCurrentPrompt(data)
       } catch (error) {
-        console.error(error)
+        setPromptError(true)
       } finally {
         setArePromptsLoading(false)
       }
@@ -324,6 +327,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         arePromptsLoading,
         currentPrompt,
         isContrast,
+        promptError,
         onSetIsContrast,
         onComplete,
         onKeyPressed,
