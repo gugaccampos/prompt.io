@@ -24,13 +24,13 @@ export function EndGame() {
       <S.EndGameContainer>
         {userInfo?.won ? (
           <>
-            <h1>Você ganhou! 🥳</h1>
+            <h1>You Won! 🥳</h1>
           </>
         ) : (
           <>
-            <h1>Você Perdeu</h1>
+            <h1>You Lost 😢</h1>
             <div>
-              <h3>A frase certa era: </h3>
+              <h3>The correct sentence was: </h3>
               <h3>{userInfo?.solution}</h3>
             </div>
           </>
