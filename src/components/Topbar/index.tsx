@@ -9,40 +9,23 @@ import { Gear } from '@phosphor-icons/react'
 import Toggle from 'components/Toggle'
 
 export const Topbar: FC = () => {
-  const { prompts, level, setLevel, isContrast, onSetIsContrast } = useTries()
+  const { isContrast, onSetIsContrast } = useTries()
   const [isOpen, setIsOpen] = useState(true)
   const [configOpen, setConfigOpen] = useState(false)
   const theme = useTheme()
-
-  const nextLevel = () => {
-    const index = prompts.findIndex((object) => {
-      return object.key === level
-    })
-
-    if (prompts.at(index + 1)) {
-      setLevel(prompts[index + 1].key)
-    } else setLevel(prompts[0].key)
-  }
 
   return (
     <S.Container>
       <S.LogoContainer>
         <Logo />
       </S.LogoContainer>
-      <S.Text>Adivinhe o prompt que gerou a imagem</S.Text>
+      <S.Text>Guess the prompt that generated the image</S.Text>
       <S.Buttons>
         <S.ButtonContainer onClick={() => setIsOpen(true)}>?</S.ButtonContainer>
         <S.ButtonContainer onClick={() => setConfigOpen(true)}>
           {' '}
           <Gear color="white" weight="bold" />
         </S.ButtonContainer>
-
-        <S.NextButton
-          // disabled={!hasNewPrompt}
-          onClick={nextLevel}
-        >
-          PRÓXIMO
-        </S.NextButton>
       </S.Buttons>
       <S.Modal isOpen={isOpen} aria-label="modal" aria-hidden={!isOpen}>
         <S.Close
@@ -52,14 +35,13 @@ export const Topbar: FC = () => {
         ></S.Close>
         <S.TutorialContainer>
           <S.TutorialText>
-            Descubra o prompt que gerou a imagem em 5 tentativas. Depois de cada
-            tentativa, as peças mostram o quão perto você está da resposta
-            correta.
+            Discover the prompt that generated the image in 5 tries. After each
+            attempt, the tiles show how close you are to the correct answer.
           </S.TutorialText>
 
           <S.TutorialExamples>
             <Key content={'P'} color={theme.colors.bgLight} />
-            <Key content={'I'} color={theme.colors.bgLight} />
+            <Key content={'E'} color={theme.colors.bgLight} />
             <Key content={'N'} color={theme.colors.bgLight} />
             <Key content={'G'} color={theme.colors.bgLight} />
             <Key content={'U'} color={theme.colors.bgLight} />
@@ -68,43 +50,44 @@ export const Topbar: FC = () => {
             <Key content={'S'} color={theme.colors.bgLight} />
             <Space>-</Space>
             <Key
-              content={'A'}
+              content={'F'}
               color={isContrast ? theme.colors.green : theme.colors.blue}
             />
-            <Key content={'M'} color={theme.colors.bgLight} />
+            <Key content={'R'} color={theme.colors.bgLight} />
             <Key content={'I'} color={theme.colors.bgLight} />
-            <Key content={'G'} color={theme.colors.bgLight} />
-            <Key content={'O'} color={theme.colors.bgLight} />
+            <Key content={'E'} color={theme.colors.bgLight} />
+            <Key content={'N'} color={theme.colors.bgLight} />
+            <Key content={'D'} color={theme.colors.bgLight} />
             <Key content={'S'} color={theme.colors.bgLight} />
           </S.TutorialExamples>
 
           <S.TutorialExamplesText>
             <Key
-              content={'A'}
+              content={'F'}
               color={isContrast ? theme.colors.green : theme.colors.blue}
             />
             <S.TutorialText>
-              Significa que essa letra pertence à frase e está na posição
-              correta
+              It means that the letter belongs to the sentence and is in the
+              correct position
             </S.TutorialText>
           </S.TutorialExamplesText>
 
           <S.TutorialExamples>
-            <Key content={'C'} color={theme.colors.bgLight} />
+            <Key content={'K'} color={theme.colors.bgLight} />
             <Key content={'A'} color={theme.colors.bgLight} />
             <Key
               content={'R'}
               color={isContrast ? theme.colors.yellow : theme.colors.orange}
             />
-            <Key content={'R'} color={theme.colors.bgLight} />
-            <Key content={'O'} color={theme.colors.bgLight} />
-            <Space>-</Space>
-            <Key content={'A'} color={theme.colors.bgLight} />
-            <Key content={'N'} color={theme.colors.bgLight} />
             <Key content={'T'} color={theme.colors.bgLight} />
+            <Key content={'S'} color={theme.colors.bgLight} />
+            <Space>-</Space>
+            <Key content={'R'} color={theme.colors.bgLight} />
+            <Key content={'A'} color={theme.colors.bgLight} />
+            <Key content={'C'} color={theme.colors.bgLight} />
             <Key content={'I'} color={theme.colors.bgLight} />
+            <Key content={'N'} color={theme.colors.bgLight} />
             <Key content={'G'} color={theme.colors.bgLight} />
-            <Key content={'O'} color={theme.colors.bgLight} />
           </S.TutorialExamples>
 
           <S.TutorialExamplesText>
@@ -113,7 +96,8 @@ export const Topbar: FC = () => {
               color={isContrast ? theme.colors.yellow : theme.colors.orange}
             />
             <S.TutorialText>
-              Significa que essa letra pertence à frase, mas em outra posição
+              It means that letter belongs to the sentence, but in another
+              position
             </S.TutorialText>
           </S.TutorialExamplesText>
 
@@ -124,8 +108,8 @@ export const Topbar: FC = () => {
             <Key content={'C'} color={'opacity'} />
             <Key content={'O'} color={theme.colors.bgLight} />
             <Space>-</Space>
-            <Key content={'D'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
+            <Key content={'O'} color={theme.colors.bgLight} />
+            <Key content={'F'} color={theme.colors.bgLight} />
             <Space>-</Space>
             <Key content={'G'} color={theme.colors.bgLight} />
             <Key content={'A'} color={theme.colors.bgLight} />
@@ -136,18 +120,11 @@ export const Topbar: FC = () => {
           <S.TutorialExamplesText>
             <Key content={'C'} color={'opacity'} />
             <S.TutorialText>
-              Significa que essa letra não pertence à frase
+              It means that letter does not belong to the sentence
             </S.TutorialText>
           </S.TutorialExamplesText>
 
-          <S.TutorialText>As frases podem ter letras repetidas</S.TutorialText>
-
-          <S.TutorialExamplesText>
-            <S.NextButton>PRÓXIMO</S.NextButton>
-            <S.TutorialText>
-              Este botão gera uma nova imagem e um novo prompt para ser acertado
-            </S.TutorialText>
-          </S.TutorialExamplesText>
+          <S.TutorialText>Phrases can have repeated letters</S.TutorialText>
         </S.TutorialContainer>
       </S.Modal>
 
@@ -165,7 +142,7 @@ export const Topbar: FC = () => {
             X
           </S.ConfigClose>
           <S.ConfigDaltonico>
-            <S.ConfigText>Alto Contraste:</S.ConfigText>
+            <S.ConfigText>High contrast:</S.ConfigText>
             {/* <Toggle
               onChange={() => onSetIsContrast()}
               name={''}
@@ -179,7 +156,7 @@ export const Topbar: FC = () => {
           </S.ConfigDaltonico>
 
           <S.Devs>
-            <S.ConfigText>Desenvolvedores:</S.ConfigText>
+            <S.ConfigText>Developers:</S.ConfigText>
             <a
               href="https://github.com/gugaccampos"
               target="_blank"
@@ -218,7 +195,7 @@ export const Topbar: FC = () => {
           </S.Devs>
 
           <S.Termo>
-            <S.ConfigText>Inspirado no </S.ConfigText>
+            <S.ConfigText>Inspired by: </S.ConfigText>
             <a
               href="https://term.ooo/"
               target="_blank"

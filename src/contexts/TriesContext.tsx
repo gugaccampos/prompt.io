@@ -1,9 +1,7 @@
 import { charStatus, userTriesTypes } from 'components/Tries/types'
 import {
-  createContext,
-  Dispatch,
   ReactNode,
-  SetStateAction,
+  createContext,
   useContext,
   useEffect,
   useState
@@ -19,15 +17,12 @@ interface TriesContextType {
   userInfo: userTriesTypes | undefined
   currentLetter: string
   wasKeyPressed: boolean
-  level: string | undefined
   isContrast: boolean
   onSetIsContrast: () => void
-  setLevel: Dispatch<SetStateAction<string | undefined>>
   onComplete: (currTry: string[]) => void
   onKeyPressed: (letter: string) => void
   setNewLetter: (column: number, letter: string) => void
   arePromptsLoading: boolean
-  prompts: { key: string }[]
   currentPrompt?: { image: string; prompt: string }
 }
 
@@ -35,9 +30,7 @@ export const TriesContext = createContext({} as TriesContextType)
 
 export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [userInfo, setUserInfo] = useState<userTriesTypes>()
-  const [level, setLevel] = useState<string | undefined>()
   const [arePromptsLoading, setArePromptsLoading] = useState(true)
-  const [prompts, setPrompts] = useState<{ key: string }[]>([])
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
   const [isContrast, setIsContrast] = useState(true)
@@ -316,59 +309,15 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   }
 
   useEffect(() => {
-    const getPrompt = async (id: string) => {
+    const getPrompt = async () => {
       try {
+        setArePromptsLoading(true)
         const { data } = await api.get<{ prompt: string; image: string }>(
-          `/prompt/${id}`
+          `/prompt`
         )
 
         initializeUserInfo(data)
-        setCurrentPrompt(data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    if (level !== undefined) {
-      localStorage.setItem('level', String(level))
-      getPrompt(level)
-    }
-  }, [prompts, level])
-
-  useEffect(() => {
-    const getPrompt = async (id: string) => {
-      try {
-        const { data } = await api.get<{ prompt: string; image: string }>(
-          `/prompt/${id}`
-        )
-
-        return data
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    const getPrompts = async () => {
-      try {
-        setArePromptsLoading(true)
-        const { data } = await api.get<
-          {
-            key: string
-          }[]
-        >('/prompt')
-
-        setPrompts(data)
-
-        const localStorageLevel = localStorage.getItem('level')
-
-        if (localStorageLevel) setLevel(localStorageLevel)
-
-        const prompt = await getPrompt(
-          localStorageLevel ? localStorageLevel : data[0].key
-        )
-
-        setCurrentPrompt(prompt)
-        if (prompt) initializeUserInfo(prompt)
+        return setCurrentPrompt(data)
       } catch (error) {
         console.error(error)
       } finally {
@@ -376,7 +325,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
       }
     }
 
-    if (!userInfo) getPrompts()
+    if (!userInfo) getPrompt()
   }, [userInfo])
 
   return (
@@ -386,12 +335,9 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         currentLetter,
         wasKeyPressed,
         arePromptsLoading,
-        prompts,
         currentPrompt,
-        level,
         isContrast,
         onSetIsContrast,
-        setLevel,
         onComplete,
         onKeyPressed,
         setNewLetter
