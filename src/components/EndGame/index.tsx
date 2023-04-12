@@ -23,7 +23,9 @@ export function EndGame() {
       ></S.Close>
       <S.EndGameContainer>
         {userInfo?.won ? (
-          <h1>Você ganhou</h1>
+          <>
+            <h1>Você ganhou! 🥳</h1>
+          </>
         ) : (
           <>
             <h1>Você Perdeu</h1>
