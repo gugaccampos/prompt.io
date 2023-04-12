@@ -3,8 +3,20 @@ import { Image } from 'components/Image'
 import { Keyboard } from 'components/Keyboard'
 import { Topbar } from 'components/Topbar'
 import { Tries } from 'components/Tries'
+import { useTries } from 'contexts/TriesContext'
+import * as S from './styles'
 
 export const Default = () => {
+  const { arePromptsLoading } = useTries()
+
+  if (arePromptsLoading)
+    return (
+      <S.LoaderContainer>
+        <S.Loader className="loader" />
+        <p>One moment. AI is creating the game for us.</p>
+      </S.LoaderContainer>
+    )
+
   return (
     <>
       <Topbar />

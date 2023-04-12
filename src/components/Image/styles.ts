@@ -19,3 +19,10 @@ export const Image = styled.div<{ src: string }>`
   background-size: cover;
   background-position: center;
 `
+
+export const Span = styled.span`
+  width: 256px;
+  height: 256px;
+
+  border-radius: 8px;
+`

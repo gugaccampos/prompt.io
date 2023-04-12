@@ -35,6 +35,7 @@ export function EndGame() {
             </div>
           </>
         )}
+        <h3>Come back tomorrow for another challenge!</h3>
       </S.EndGameContainer>
     </S.Modal>
   )
