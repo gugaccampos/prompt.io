@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { Logo } from './logo'
 import * as S from './styles'
 import { useTries } from 'contexts/TriesContext'
@@ -10,9 +10,13 @@ import Toggle from 'components/Toggle'
 
 export const Topbar: FC = () => {
   const { isContrast, onSetIsContrast } = useTries()
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [configOpen, setConfigOpen] = useState(false)
   const theme = useTheme()
+
+  useEffect(() => {
+    if (!localStorage.getItem('tutorial')) setIsOpen(true)
+  }, [])
 
   return (
     <S.Container>
@@ -31,7 +35,10 @@ export const Topbar: FC = () => {
         <S.Close
           role="button"
           aria-label="close modal"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            localStorage.setItem('tutorial', 'true')
+            setIsOpen(false)
+          }}
         ></S.Close>
         <S.TutorialContainer>
           <S.TutorialText>

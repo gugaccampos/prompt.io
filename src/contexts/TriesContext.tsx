@@ -36,30 +36,17 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [isContrast, setIsContrast] = useState(true)
 
   // Pega do localStorage se já tiver informação lá
-  // useEffect(() => {
-  //   if (localStorage.getItem('prompt') !== null) {
-  //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  //     setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (localStorage.getItem('prompt') !== null) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
+    }
+  }, [])
 
-  // useEffect(() => {
-  //   // chamada ao back
-  //   // passando o nivel atual
-  //   if (localStorage.getItem('prompt') === null) {
-  //     for (let i = 0; i < 5; i++) {
-  //       for (let j = 0; j < userInfo.solutionArray.length; j++) {
-  //         userInfo.triesFeedback[i][j] = charStatus.NOT_IN_WORD
-  //         userInfo.tries[i][j] = ''
-  //       }
-  //     }
-  //   }
-  // }, [userInfo.solutionArray.length, userInfo.triesFeedback, userInfo.tries])
-
-  // atualiza o localStorage a cada atualização de userInfo
-  // useEffect(() => {
-  //   localStorage.setItem('prompt', JSON.stringify(userInfo))
-  // }, [userInfo])
+  useEffect(() => {
+    if (userInfo !== undefined)
+      localStorage.setItem('prompt', JSON.stringify(userInfo))
+  }, [userInfo])
 
   // Panguins dincando
   // Pinguins Felizes

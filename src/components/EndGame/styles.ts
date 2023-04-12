@@ -58,6 +58,12 @@ export const EndGameContainer = styled.div`
   padding: 12px 32px;
   font-size: 2rem;
 
+  > h3 {
+    width: 50%;
+    text-align: center;
+    font-size: 2rem;
+  }
+
   div {
     display: flex;
     flex-direction: column;
