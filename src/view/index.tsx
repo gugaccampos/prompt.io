@@ -17,7 +17,7 @@ export const Default = () => {
           An error has occurred. Next time we will ask the AI not to confuse the
           instructions.
         </p>
-        <button>Reload page</button>
+        <button onClick={() => window.location.reload()}>Reload page</button>
       </S.LoaderContainer>
     )
 
