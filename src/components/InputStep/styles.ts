@@ -19,6 +19,11 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   color: white;
 
   outline: none;
+
+  &:focus {
+    border-bottom: 3px solid white;
+  }
+
   &:hover {
     cursor: pointer;
   }
@@ -45,4 +50,8 @@ export const Space = styled.p`
 export const InputDiv = styled.div`
   display: flex;
   align-items: center;
+
+  &:focus {
+    border-bottom: 3px solid white;
+  }
 `

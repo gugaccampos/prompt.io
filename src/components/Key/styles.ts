@@ -21,10 +21,6 @@ export const Button = styled.button<{ special?: boolean; color?: string }>`
   font-weight: 500;
   text-transform: uppercase;
 
-  &:focus {
-    border-bottom: 3px solid white;
-  }
-
   &:hover {
     opacity: 0.9;
   }
