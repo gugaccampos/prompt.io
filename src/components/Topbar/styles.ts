@@ -27,6 +27,9 @@ export const Text = styled.h1`
 `
 
 export const ButtonContainer = styled.button`
+  display: grid;
+  place-items: center;
+
   background-color: transparent;
 
   outline: none;
