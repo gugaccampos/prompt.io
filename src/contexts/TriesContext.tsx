@@ -25,6 +25,7 @@ interface TriesContextType {
   setNewLetter: (column: number, letter: string) => void
   arePromptsLoading: boolean
   currentPrompt?: { image: string; prompt: string }
+  winStreak: number
 }
 
 export const TriesContext = createContext({} as TriesContextType)
@@ -36,12 +37,16 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
   const [isContrast, setIsContrast] = useState(true)
+  const [winStreak, setWinStreak] = useState(0)
 
   // Pega do localStorage se já tiver informação lá
   useEffect(() => {
     if (localStorage.getItem('prompt') !== null) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
+    }
+    if (localStorage.getItem('winStreak') !== null) {
+      setWinStreak(Number(localStorage.getItem('winStreak')))
     }
   }, [])
 
@@ -227,8 +232,14 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
       if (userWin) {
         newState.won = true
+        localStorage.setItem('winStreak', `${winStreak + 1}`)
+        setWinStreak((state) => {
+          return state + 1
+        })
       } else if (newState.currRow == 5) {
         newState.won = false
+        setWinStreak(0)
+        localStorage.setItem('winStreak', '0')
       }
 
       setUserInfo(newState)
@@ -338,6 +349,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         currentPrompt,
         isContrast,
         promptError,
+        winStreak,
         onSetIsContrast,
         onComplete,
         onKeyPressed,

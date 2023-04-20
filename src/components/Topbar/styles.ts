@@ -23,9 +23,6 @@ export const LogoContainer = styled.div`
 export const Text = styled.h1`
   font-weight: 500;
   font-size: 2rem;
-  @media (max-width: 2000px) {
-    font-size: 1.8rem;
-  }
 
   color: #ffffff;
   text-align: center;
