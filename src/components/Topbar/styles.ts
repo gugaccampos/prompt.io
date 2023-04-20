@@ -5,10 +5,10 @@ export const Container = styled.div`
   align-items: center;
 
   margin: 0 auto;
-  padding: 16px 0;
+  padding: 1rem 0;
 
   & > svg {
-    height: 16px !important;
+    height: 1px !important;
   }
 `
 
@@ -23,7 +23,7 @@ export const Text = styled.h1`
   color: #ffffff;
   text-align: center;
 
-  margin: 0 80px;
+  margin: 0 8rem;
 `
 
 export const ButtonContainer = styled.button`
