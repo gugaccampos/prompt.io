@@ -248,8 +248,16 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     const localStoragePrompt = localStorage.getItem('prompt') || '{}'
     const parsedLocalStorage = JSON.parse(localStoragePrompt)
 
-    if (parsedLocalStorage.solution === prompt.prompt.toLowerCase())
+    if (parsedLocalStorage.solution === prompt.prompt.toLowerCase()) {
+      if (parsedLocalStorage.won === null) {
+        parsedLocalStorage.tries[parsedLocalStorage.currRow] =
+          parsedLocalStorage.tries[parsedLocalStorage.currRow].map(() => {
+            return ''
+          })
+      }
+
       return setUserInfo(parsedLocalStorage)
+    }
 
     // currRow: number
     // currTry: Array<string | null>
