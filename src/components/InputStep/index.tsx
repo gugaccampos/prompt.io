@@ -163,7 +163,10 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
           inputs.current[slot - 1].focus()
         }
       }
-    } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
+    } else if (
+      (e.code === 'Enter' || e.code === 'NumpadEnter') &&
+      code.every((key) => key !== '')
+    ) {
       onComplete(code)
     } else if (
       e.code === 'ArrowRight' &&

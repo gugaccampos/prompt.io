@@ -35,7 +35,7 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   &:hover {
     cursor: pointer;
   }
-
+  caret-color: transparent;
   opacity: ${(props) => (props.blur || props.color === 'opacity' ? 0.4 : 1)};
 
   @media (max-width: 600px) {
