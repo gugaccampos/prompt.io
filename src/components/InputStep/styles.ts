@@ -5,8 +5,8 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   height: 48px;
 
   @media (max-width: 2000px) {
-    width: 24px;
-    height: 36px;
+    width: 1.5em;
+    height: 2em;
   }
 
   border: none;
