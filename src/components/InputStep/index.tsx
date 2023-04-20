@@ -49,7 +49,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
-      if (currentLetter === 'del' && inputFocused > 0) {
+      if (currentLetter === 'del' && inputFocused >= 0) {
         const newCode = [...code]
 
         if (newCode[inputFocused] !== '') {
@@ -65,7 +65,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
             userInfo.tries[rowIndex][inputFocused - 1] = ''
           }
           setCode(newCode)
-          inputs.current[inputFocused - 1].focus()
+          if (inputFocused > 0) {
+            inputs.current[inputFocused - 1].focus()
+          }
         }
       } else if (
         currentLetter === 'ok' &&
@@ -137,8 +139,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
-    if (e.code === 'Backspace' && slot !== 0) {
+    if (e.code === 'Backspace' && slot >= 0) {
       const newCode = [...code]
+      // se o input atual tiver conteudo
       if (
         userInfo !== undefined &&
         userInfo.tries[rowIndex][inputFocused] !== ''
@@ -148,12 +151,17 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
           userInfo.tries[rowIndex][inputFocused] = ''
         }
         setCode(newCode)
-        inputs.current[inputFocused].focus()
+
+        if (slot > 0) {
+          inputs.current[inputFocused].focus()
+        }
       } else {
         newCode[slot - 1] = ''
         if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
         setCode(newCode)
-        inputs.current[slot - 1].focus()
+        if (slot > 0) {
+          inputs.current[slot - 1].focus()
+        }
       }
     } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
