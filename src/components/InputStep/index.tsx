@@ -182,6 +182,21 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     }
   }
 
+  const handleBlur = (slot: number) => {
+    setTimeout(() => {
+      const hasFocus = inputs.current.some(
+        (el) => el === document.activeElement
+      )
+      if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
+        inputs.current[slot].focus()
+      }
+    }, 0)
+  }
+
+  const handleFocus = (slot: number) => {
+    setInputFocused(slot)
+  }
+
   return (
     <ContainerInputs>
       {userInfo &&
@@ -206,7 +221,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   // onChange={(e) => processInput(e, idx)}
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
-                  onFocus={() => setInputFocused(idx)}
+                  onFocus={() => handleFocus(idx)}
+                  onBlur={() => handleBlur(idx)}
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
@@ -229,7 +245,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               // onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
-              onFocus={() => setInputFocused(idx)}
+              onFocus={() => handleFocus(idx)}
+              onBlur={() => handleBlur(idx)}
               // eslint-disable-next-line
               ref={(ref) => inputs.current.push(ref!)}
             />
