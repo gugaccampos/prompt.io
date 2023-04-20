@@ -126,6 +126,8 @@ export const TutorialContainer = styled.div`
   border-radius: 10px;
   width: 60%;
   height: 90%;
+  max-width: 810px;
+  max-height: 570px;
   padding: 24px 32px;
   font-size: 2rem;
 `
@@ -188,6 +190,8 @@ export const ConfigContainer = styled.div`
   border-radius: 10px;
   width: 40%;
   height: 70%;
+  max-width: 600px;
+  max-height: 450px;
   padding: 12px 32px;
   font-size: 2rem;
 `
