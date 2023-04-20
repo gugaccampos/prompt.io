@@ -55,6 +55,8 @@ export const EndGameContainer = styled.div`
   border-radius: 10px;
   width: 40%;
   height: 60%;
+  max-width: 550px;
+  max-height: 400px;
   padding: 12px 32px;
   font-size: 2rem;
 

@@ -144,6 +144,9 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    @media (max-width: 2000px) {
+      gap: 8px;
+    }
 
     width: 100%;
     max-width: ${theme.grid.container};

@@ -4,6 +4,11 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   width: 32px;
   height: 48px;
 
+  @media (max-width: 2000px) {
+    width: 24px;
+    height: 36px;
+  }
+
   border: none;
   border-radius: 4px;
 
@@ -15,6 +20,9 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   text-transform: uppercase;
   text-align: center;
   font-size: 20px;
+  @media (max-width: 2000px) {
+    font-size: 18px;
+  }
   font-weight: 500;
   color: white;
 

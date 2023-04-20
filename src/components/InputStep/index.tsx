@@ -49,7 +49,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
-      if (currentLetter === 'del' && inputFocused > 0) {
+      if (currentLetter === 'del' && inputFocused >= 0) {
         const newCode = [...code]
 
         if (newCode[inputFocused] !== '') {
@@ -65,7 +65,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
             userInfo.tries[rowIndex][inputFocused - 1] = ''
           }
           setCode(newCode)
-          inputs.current[inputFocused - 1].focus()
+          if (inputFocused > 0) {
+            inputs.current[inputFocused - 1].focus()
+          }
         }
       } else if (
         currentLetter === 'ok' &&
@@ -137,8 +139,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
-    if (e.code === 'Backspace' && slot !== 0) {
+    if (e.code === 'Backspace' && slot >= 0) {
       const newCode = [...code]
+      // se o input atual tiver conteudo
       if (
         userInfo !== undefined &&
         userInfo.tries[rowIndex][inputFocused] !== ''
@@ -148,12 +151,17 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
           userInfo.tries[rowIndex][inputFocused] = ''
         }
         setCode(newCode)
-        inputs.current[inputFocused].focus()
+
+        if (slot > 0) {
+          inputs.current[inputFocused].focus()
+        }
       } else {
         newCode[slot - 1] = ''
         if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
         setCode(newCode)
-        inputs.current[slot - 1].focus()
+        if (slot > 0) {
+          inputs.current[slot - 1].focus()
+        }
       }
     } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
       onComplete(code)
@@ -172,6 +180,21 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     } else if (e.keyCode >= 65 && e.keyCode <= 90) {
       processInput(String(e.key), inputFocused)
     }
+  }
+
+  const handleBlur = (slot: number) => {
+    setTimeout(() => {
+      const hasFocus = inputs.current.some(
+        (el) => el === document.activeElement
+      )
+      if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
+        inputs.current[slot].focus()
+      }
+    }, 0)
+  }
+
+  const handleFocus = (slot: number) => {
+    setInputFocused(slot)
   }
 
   return (
@@ -198,7 +221,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   // onChange={(e) => processInput(e, idx)}
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
-                  onFocus={() => setInputFocused(idx)}
+                  onFocus={() => handleFocus(idx)}
+                  onBlur={() => handleBlur(idx)}
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
@@ -221,7 +245,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               // onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
-              onFocus={() => setInputFocused(idx)}
+              onFocus={() => handleFocus(idx)}
+              onBlur={() => handleBlur(idx)}
               // eslint-disable-next-line
               ref={(ref) => inputs.current.push(ref!)}
             />

@@ -5,10 +5,14 @@ export const Container = styled.div`
   align-items: center;
 
   margin: 0 auto;
-  padding: 16px 0;
+  padding: 1rem 0;
+
+  @media (max-width: 2000px) {
+    padding: 1rem 0;
+  }
 
   & > svg {
-    height: 16px !important;
+    height: 1px !important;
   }
 `
 
@@ -19,11 +23,14 @@ export const LogoContainer = styled.div`
 export const Text = styled.h1`
   font-weight: 500;
   font-size: 2rem;
+  @media (max-width: 2000px) {
+    font-size: 1.8rem;
+  }
 
   color: #ffffff;
   text-align: center;
 
-  margin: 0 80px;
+  margin: 0 8rem;
 `
 
 export const ButtonContainer = styled.button`
@@ -39,6 +46,10 @@ export const ButtonContainer = styled.button`
 
   padding: 0 10px;
   height: 40px;
+  @media (max-width: 2000px) {
+    padding: 0 8px;
+    height: 36px;
+  }
 
   cursor: pointer;
 
@@ -126,6 +137,8 @@ export const TutorialContainer = styled.div`
   border-radius: 10px;
   width: 60%;
   height: 90%;
+  max-width: 810px;
+  max-height: 570px;
   padding: 24px 32px;
   font-size: 2rem;
 `
@@ -188,6 +201,8 @@ export const ConfigContainer = styled.div`
   border-radius: 10px;
   width: 40%;
   height: 70%;
+  max-width: 600px;
+  max-height: 450px;
   padding: 12px 32px;
   font-size: 2rem;
 `
