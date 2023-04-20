@@ -7,6 +7,10 @@ export const Container = styled.div`
   margin: 0 auto;
   padding: 1rem 0;
 
+  @media (max-width: 2000px) {
+    padding: 1rem 0;
+  }
+
   & > svg {
     height: 1px !important;
   }
@@ -19,6 +23,9 @@ export const LogoContainer = styled.div`
 export const Text = styled.h1`
   font-weight: 500;
   font-size: 2rem;
+  @media (max-width: 2000px) {
+    font-size: 1.8rem;
+  }
 
   color: #ffffff;
   text-align: center;
@@ -39,6 +46,10 @@ export const ButtonContainer = styled.button`
 
   padding: 0 10px;
   height: 40px;
+  @media (max-width: 2000px) {
+    padding: 0 8px;
+    height: 36px;
+  }
 
   cursor: pointer;
 
