@@ -121,13 +121,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       if (userInfo.currRow > 0) {
         if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
-            return isContrast ? theme.colors.green : theme.colors.blue
+            return isContrast ? theme.colors.blue : theme.colors.green
           }
 
           if (
             userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION
           )
-            return isContrast ? theme.colors.yellow : theme.colors.orange
+            return isContrast ? theme.colors.orange : theme.colors.yellow
 
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
             return 'opacity'

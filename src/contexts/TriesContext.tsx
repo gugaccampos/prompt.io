@@ -36,7 +36,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [promptError, setPromptError] = useState(false)
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
-  const [isContrast, setIsContrast] = useState(true)
+  const [isContrast, setIsContrast] = useState(false)
   const [winStreak, setWinStreak] = useState(0)
 
   // Pega do localStorage se já tiver informação lá
@@ -47,6 +47,13 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     }
     if (localStorage.getItem('winStreak') !== null) {
       setWinStreak(Number(localStorage.getItem('winStreak')))
+    }
+    if (localStorage.getItem('highContrast') !== null) {
+      if (localStorage.getItem('highContrast') === 'true') {
+        setIsContrast(true)
+      } else {
+        setIsContrast(false)
+      }
     }
   }, [])
 
@@ -63,6 +70,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
   const onSetIsContrast = () => {
     setIsContrast((state) => {
+      localStorage.setItem('highContrast', `${!state}`)
+
       return !state
     })
   }
