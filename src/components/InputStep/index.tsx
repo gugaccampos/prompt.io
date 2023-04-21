@@ -36,13 +36,23 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   const [inputFocused, setInputFocused] = useState(0)
 
   useEffect(() => {
+    const hasFocus = inputs.current.some((el) => el === document.activeElement)
     if (
       inputs.current.length &&
       userInfo !== undefined &&
       userInfo.tries[userInfo.currRow] !== undefined &&
-      userInfo.tries[userInfo.currRow].every((key) => key === '')
+      userInfo.tries[userInfo.currRow].every((key) => key === '') &&
+      !hasFocus
     ) {
+      console.log(
+        inputs.current.length &&
+          userInfo !== undefined &&
+          userInfo.tries[userInfo.currRow] !== undefined &&
+          userInfo.tries[userInfo.currRow].every((key) => key === '')
+      )
+
       inputs.current[0].focus()
+      console.log('entrou aqui')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete])
@@ -186,6 +196,8 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   }
 
   const handleBlur = (slot: number) => {
+    // console.log(slot, inputFocused)
+
     setTimeout(() => {
       const hasFocus = inputs.current.some(
         (el) => el === document.activeElement
@@ -217,7 +229,6 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                       : rowIndex >= userInfo?.currRow
                   }
                   type="text"
-                  inputMode="numeric"
                   maxLength={1}
                   value={num}
                   autoFocus={!code[0].length && idx === 0}
@@ -241,7 +252,6 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   : rowIndex >= userInfo?.currRow
               }
               type="text"
-              inputMode="numeric"
               maxLength={1}
               value={num}
               autoFocus={!code[0].length && idx === 0}
