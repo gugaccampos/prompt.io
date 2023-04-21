@@ -44,15 +44,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       userInfo.tries[userInfo.currRow].every((key) => key === '') &&
       !hasFocus
     ) {
-      console.log(
-        inputs.current.length &&
-          userInfo !== undefined &&
-          userInfo.tries[userInfo.currRow] !== undefined &&
-          userInfo.tries[userInfo.currRow].every((key) => key === '')
-      )
-
       inputs.current[0].focus()
-      console.log('entrou aqui')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete])
