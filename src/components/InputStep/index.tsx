@@ -223,6 +223,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   type="text"
                   maxLength={1}
                   value={num}
+                  readOnly
                   autoFocus={!code[0].length && idx === 0}
                   // onChange={(e) => processInput(e, idx)}
                   onKeyUp={(e) => onKeyUp(e, idx)}
@@ -246,6 +247,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               type="text"
               maxLength={1}
               value={num}
+              readOnly
               autoFocus={!code[0].length && idx === 0}
               // onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
