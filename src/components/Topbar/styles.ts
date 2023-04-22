@@ -1,23 +1,26 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
 
-  margin: 0 auto;
-  padding: 1rem 0;
-
-  @media (max-width: 2000px) {
-    padding: 1rem 0;
-  }
+  margin: 10px auto;
 
   & > svg {
     height: 1px !important;
   }
+
+  @media (max-width: 600px) {
+    flex-direction: row;
+  }
 `
 
 export const LogoContainer = styled.div`
-  margin-left: 50px;
+  display: flex;
+  width: 94px;
+  height: fit-content;
+  align-items: center;
 `
 
 export const Text = styled.h1`
@@ -27,7 +30,7 @@ export const Text = styled.h1`
   color: #ffffff;
   text-align: center;
 
-  margin: 0 8rem;
+  margin: 0 auto;
 `
 
 export const ButtonContainer = styled.button`
@@ -41,12 +44,8 @@ export const ButtonContainer = styled.button`
   color: ${({ theme }) => theme.colors.grey};
   border-radius: 4px;
 
-  padding: 0 10px;
-  height: 40px;
-  @media (max-width: 2000px) {
-    padding: 0 8px;
-    height: 36px;
-  }
+  width: 4rem;
+  height: 3.6rem;
 
   cursor: pointer;
 
@@ -140,18 +139,31 @@ export const TutorialContainer = styled.div`
   font-size: 2rem;
 `
 
-export const TutorialText = styled.text``
+export const TutorialText = styled.text`
+  @media (max-width: 800px) {
+    font-size: 1.2rem;
+    &:first-child {
+      text-align: center;
+    }
+  }
+`
 
 export const TutorialExamples = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+  }
 `
 
 export const TutorialExamplesText = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  @media (max-width: 800px) {
+    font-size: 1.2rem;
+  }
 `
 
 export const ConfigModal = styled.div<ModalProps>`
@@ -188,6 +200,26 @@ export const Buttons = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+
+  @media (max-width: 600px) {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    width: 40px;
+  }
+`
+
+export const LogoAndTexts = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 `
 
 export const ConfigContainer = styled.div`
@@ -198,6 +230,9 @@ export const ConfigContainer = styled.div`
   border-radius: 10px;
   width: 40%;
   height: 70%;
+  @media (max-width: 600px) {
+    width: 80%;
+  }
   max-width: 600px;
   max-height: 450px;
   padding: 12px 32px;
@@ -229,3 +264,7 @@ export const Devs = styled.div`
 `
 
 export const Termo = styled.div``
+
+export const LogoSvg = styled.svg`
+  height: 25px;
+`

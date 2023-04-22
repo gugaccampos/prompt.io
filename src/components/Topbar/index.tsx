@@ -2,9 +2,8 @@ import { FC, useState, useEffect } from 'react'
 import { Logo } from './logo'
 import * as S from './styles'
 import { useTries } from 'contexts/TriesContext'
-import { Key } from 'components/Key'
 import { useTheme } from 'styled-components'
-import { Space } from 'components/InputStep/styles'
+import { Input, Space } from 'components/InputStep/styles'
 import { Gear } from '@phosphor-icons/react'
 import Toggle from 'components/Toggle'
 
@@ -20,10 +19,12 @@ export const Topbar: FC = () => {
 
   return (
     <S.Container>
-      <S.LogoContainer>
-        <Logo />
-      </S.LogoContainer>
-      <S.Text>Guess the prompt that generated the image</S.Text>
+      <S.LogoAndTexts>
+        <S.LogoContainer>
+          <Logo />
+        </S.LogoContainer>
+        <S.Text>Guess the prompt that generated the image</S.Text>
+      </S.LogoAndTexts>
       <S.Buttons>
         <S.ButtonContainer onClick={() => setIsOpen(true)}>?</S.ButtonContainer>
         <S.ButtonContainer onClick={() => setConfigOpen(true)}>
@@ -47,31 +48,105 @@ export const Topbar: FC = () => {
           </S.TutorialText>
 
           <S.TutorialExamples>
-            <Key content={'P'} color={theme.colors.bgLight} />
-            <Key content={'E'} color={theme.colors.bgLight} />
-            <Key content={'N'} color={theme.colors.bgLight} />
-            <Key content={'G'} color={theme.colors.bgLight} />
-            <Key content={'U'} color={theme.colors.bgLight} />
-            <Key content={'I'} color={theme.colors.bgLight} />
-            <Key content={'N'} color={theme.colors.bgLight} />
-            <Key content={'S'} color={theme.colors.bgLight} />
-            <Space>-</Space>
-            <Key
-              content={'F'}
-              color={isContrast ? theme.colors.blue : theme.colors.green}
+            <Input
+              value={'P'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
             />
-            <Key content={'R'} color={theme.colors.bgLight} />
-            <Key content={'I'} color={theme.colors.bgLight} />
-            <Key content={'E'} color={theme.colors.bgLight} />
-            <Key content={'N'} color={theme.colors.bgLight} />
-            <Key content={'D'} color={theme.colors.bgLight} />
-            <Key content={'S'} color={theme.colors.bgLight} />
+            <Input
+              value={'E'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'N'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'G'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'U'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'I'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'N'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'S'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Space>-</Space>
+            <Input
+              value={'F'}
+              readOnly
+              color={isContrast ? theme.colors.blue : theme.colors.green}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'R'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'I'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'E'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'N'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'D'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'S'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
           </S.TutorialExamples>
 
           <S.TutorialExamplesText>
-            <Key
-              content={'F'}
+            <Input
+              value={'F'}
+              readOnly
               color={isContrast ? theme.colors.blue : theme.colors.green}
+              style={{ width: '1.25em', height: '1.67em' }}
             />
             <S.TutorialText>
               It means that the letter belongs to the sentence and is in the
@@ -80,27 +155,81 @@ export const Topbar: FC = () => {
           </S.TutorialExamplesText>
 
           <S.TutorialExamples>
-            <Key content={'K'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
-            <Key
-              content={'R'}
-              color={isContrast ? theme.colors.blue : theme.colors.green}
+            <Input
+              value={'K'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
             />
-            <Key content={'T'} color={theme.colors.bgLight} />
-            <Key content={'S'} color={theme.colors.bgLight} />
+            <Input
+              value={'A'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'R'}
+              readOnly
+              color={isContrast ? theme.colors.orange : theme.colors.yellow}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'T'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'S'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
             <Space>-</Space>
-            <Key content={'R'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
-            <Key content={'C'} color={theme.colors.bgLight} />
-            <Key content={'I'} color={theme.colors.bgLight} />
-            <Key content={'N'} color={theme.colors.bgLight} />
-            <Key content={'G'} color={theme.colors.bgLight} />
+            <Input
+              value={'R'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'A'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'C'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'I'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'N'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'G'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
           </S.TutorialExamples>
 
           <S.TutorialExamplesText>
-            <Key
-              content={'R'}
+            <Input
+              value={'R'}
+              readOnly
               color={isContrast ? theme.colors.orange : theme.colors.yellow}
+              style={{ width: '1.25em', height: '1.67em' }}
             />
             <S.TutorialText>
               It means that letter belongs to the sentence, but in another
@@ -109,23 +238,83 @@ export const Topbar: FC = () => {
           </S.TutorialExamplesText>
 
           <S.TutorialExamples>
-            <Key content={'V'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
-            <Key content={'S'} color={theme.colors.bgLight} />
-            <Key content={'C'} color={'opacity'} />
-            <Key content={'O'} color={theme.colors.bgLight} />
+            <Input
+              value={'V'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'A'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'S'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'C'}
+              readOnly
+              color={'opacity'}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'O'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
             <Space>-</Space>
-            <Key content={'O'} color={theme.colors.bgLight} />
-            <Key content={'F'} color={theme.colors.bgLight} />
+            <Input
+              value={'O'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'F'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
             <Space>-</Space>
-            <Key content={'G'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
-            <Key content={'M'} color={theme.colors.bgLight} />
-            <Key content={'A'} color={theme.colors.bgLight} />
+            <Input
+              value={'G'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'A'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'M'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
+            <Input
+              value={'A'}
+              readOnly
+              color={theme.colors.bgLight}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
           </S.TutorialExamples>
 
           <S.TutorialExamplesText>
-            <Key content={'C'} color={'opacity'} />
+            <Input
+              value={'C'}
+              readOnly
+              color={'opacity'}
+              style={{ width: '1.25em', height: '1.67em' }}
+            />
             <S.TutorialText>
               It means that letter does not belong to the sentence
             </S.TutorialText>

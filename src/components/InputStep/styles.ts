@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
-export const Input = styled.input<{ color?: string; blur?: boolean }>`
-  width: 32px;
-  height: 48px;
+export const ContainerInputs = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+`
 
-  @media (max-width: 2000px) {
-    width: 1.5em;
-    height: 2em;
-  }
+export const Input = styled.input<{ color?: string; blur?: boolean }>`
+  width: 1.5em;
+  height: 2em;
 
   border: none;
   border-radius: 4px;
@@ -19,10 +22,7 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
 
   text-transform: uppercase;
   text-align: center;
-  font-size: 20px;
-  @media (max-width: 2000px) {
-    font-size: 18px;
-  }
+  font-size: 18px;
   font-weight: 500;
   color: white;
 
@@ -39,14 +39,8 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   opacity: ${(props) => (props.blur || props.color === 'opacity' ? 0.4 : 1)};
 
   @media (max-width: 600px) {
-    width: 24px;
-    height: 32px;
+    font-size: 1.2rem;
   }
-`
-
-export const ContainerInputs = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 export const Space = styled.p`
