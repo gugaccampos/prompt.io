@@ -126,5 +126,6 @@ export const LargeScreen = styled.div`
   justify-content: space-around;
   height: 100%;
   width: 100%;
+
   /* } */
 `

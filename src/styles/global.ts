@@ -145,11 +145,6 @@ export const Container = styled.div`
     align-items: center;
     justify-content: space-around;
 
-    /* gap: 16px;
-    @media (max-width: 2000px) {
-      gap: 8px;
-    } */
-
     width: 100%;
     height: 100%;
     max-width: ${theme.grid.container};
