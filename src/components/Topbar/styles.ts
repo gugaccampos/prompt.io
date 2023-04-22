@@ -133,6 +133,9 @@ export const TutorialContainer = styled.div`
   border-radius: 10px;
   width: 60%;
   height: 90%;
+  @media (max-width: 600px) {
+    width: 80%;
+  }
   max-width: 810px;
   max-height: 570px;
   padding: 24px 32px;
@@ -140,8 +143,8 @@ export const TutorialContainer = styled.div`
 `
 
 export const TutorialText = styled.text`
-  @media (max-width: 800px) {
-    font-size: 1.2rem;
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
     &:first-child {
       text-align: center;
     }
@@ -161,8 +164,8 @@ export const TutorialExamplesText = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  @media (max-width: 800px) {
-    font-size: 1.2rem;
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
   }
 `
 
