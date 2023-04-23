@@ -7,11 +7,17 @@ export const Container = styled.div`
 
   width: 100%;
   max-width: 256px;
+  @media (max-width: 1500px) {
+    max-width: 180px;
+  }
 `
 
 export const Image = styled.div<{ src: string }>`
   background-size: cover;
   height: 256px;
+  @media (max-width: 1500px) {
+    height: 180px;
+  }
   border-radius: 8px;
   min-width: 100%;
 

@@ -12,12 +12,20 @@ export const Button = styled.button<{ special?: boolean; color?: string }>`
   width: ${({ special }) => (special ? '56px' : '32px')};
   height: 40px;
 
+  @media (max-width: 2000px) {
+    width: ${({ special }) => (special ? '40px' : '24px')};
+    height: 36px;
+  }
+
   opacity: ${(props) => (props.color === 'opacity' ? 0.4 : 1)};
 
   cursor: pointer;
 
   color: ${({ theme }) => theme.colors.white};
   font-size: 1.8rem;
+  @media (max-width: 2000px) {
+    font-size: 1.6rem;
+  }
   font-weight: 500;
   text-transform: uppercase;
 

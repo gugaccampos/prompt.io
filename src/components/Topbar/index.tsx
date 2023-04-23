@@ -58,7 +58,7 @@ export const Topbar: FC = () => {
             <Space>-</Space>
             <Key
               content={'F'}
-              color={isContrast ? theme.colors.green : theme.colors.blue}
+              color={isContrast ? theme.colors.blue : theme.colors.green}
             />
             <Key content={'R'} color={theme.colors.bgLight} />
             <Key content={'I'} color={theme.colors.bgLight} />
@@ -71,7 +71,7 @@ export const Topbar: FC = () => {
           <S.TutorialExamplesText>
             <Key
               content={'F'}
-              color={isContrast ? theme.colors.green : theme.colors.blue}
+              color={isContrast ? theme.colors.blue : theme.colors.green}
             />
             <S.TutorialText>
               It means that the letter belongs to the sentence and is in the
@@ -84,7 +84,7 @@ export const Topbar: FC = () => {
             <Key content={'A'} color={theme.colors.bgLight} />
             <Key
               content={'R'}
-              color={isContrast ? theme.colors.yellow : theme.colors.orange}
+              color={isContrast ? theme.colors.blue : theme.colors.green}
             />
             <Key content={'T'} color={theme.colors.bgLight} />
             <Key content={'S'} color={theme.colors.bgLight} />
@@ -100,7 +100,7 @@ export const Topbar: FC = () => {
           <S.TutorialExamplesText>
             <Key
               content={'R'}
-              color={isContrast ? theme.colors.yellow : theme.colors.orange}
+              color={isContrast ? theme.colors.orange : theme.colors.yellow}
             />
             <S.TutorialText>
               It means that letter belongs to the sentence, but in another
@@ -159,7 +159,7 @@ export const Topbar: FC = () => {
               labelRight={''}
               labelLeft={''}
             /> */}
-            <Toggle isOn={!isContrast} handleToggle={onSetIsContrast} />
+            <Toggle isOn={isContrast} handleToggle={onSetIsContrast} />
           </S.ConfigDaltonico>
 
           <S.Devs>

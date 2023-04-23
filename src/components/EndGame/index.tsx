@@ -3,7 +3,7 @@ import * as S from './styles'
 import { useEffect, useState } from 'react'
 
 export function EndGame() {
-  const { userInfo } = useTries()
+  const { userInfo, winStreak } = useTries()
   const [endGameModal, setEndGameModal] = useState(false)
 
   useEffect(() => {
@@ -25,6 +25,7 @@ export function EndGame() {
         {userInfo?.won ? (
           <>
             <h1>You Won! 🥳</h1>
+            <h3>Current win streak: {winStreak}🔥</h3>
           </>
         ) : (
           <>

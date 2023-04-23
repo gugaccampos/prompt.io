@@ -34,7 +34,7 @@ export const Keyboard: FC = () => {
               userInfo.solutionArray[j] == letter &&
               userInfo.triesFeedback[i][j] == charStatus.CORRECT
             ) {
-              return isContrast ? theme.colors.green : theme.colors.blue
+              return isContrast ? theme.colors.blue : theme.colors.green
             }
           }
         }
@@ -44,7 +44,7 @@ export const Keyboard: FC = () => {
           userInfo.tries[i].includes(letter) &&
           userInfo.triesFeedback[i].length !== 0
         ) {
-          return isContrast ? theme.colors.yellow : theme.colors.orange
+          return isContrast ? theme.colors.orange : theme.colors.yellow
         }
       }
     }

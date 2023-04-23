@@ -25,6 +25,7 @@ interface TriesContextType {
   setNewLetter: (column: number, letter: string) => void
   arePromptsLoading: boolean
   currentPrompt?: { image: string; prompt: string }
+  winStreak: number
 }
 
 export const TriesContext = createContext({} as TriesContextType)
@@ -35,13 +36,24 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
   const [promptError, setPromptError] = useState(false)
   const [currentPrompt, setCurrentPrompt] =
     useState<{ image: string; prompt: string }>()
-  const [isContrast, setIsContrast] = useState(true)
+  const [isContrast, setIsContrast] = useState(false)
+  const [winStreak, setWinStreak] = useState(0)
 
   // Pega do localStorage se já tiver informação lá
   useEffect(() => {
     if (localStorage.getItem('prompt') !== null) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       setUserInfo(JSON.parse(localStorage.getItem('prompt')!))
+    }
+    if (localStorage.getItem('winStreak') !== null) {
+      setWinStreak(Number(localStorage.getItem('winStreak')))
+    }
+    if (localStorage.getItem('highContrast') !== null) {
+      if (localStorage.getItem('highContrast') === 'true') {
+        setIsContrast(true)
+      } else {
+        setIsContrast(false)
+      }
     }
   }, [])
 
@@ -58,6 +70,8 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
   const onSetIsContrast = () => {
     setIsContrast((state) => {
+      localStorage.setItem('highContrast', `${!state}`)
+
       return !state
     })
   }
@@ -227,8 +241,14 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
 
       if (userWin) {
         newState.won = true
+        localStorage.setItem('winStreak', `${winStreak + 1}`)
+        setWinStreak((state) => {
+          return state + 1
+        })
       } else if (newState.currRow == 5) {
         newState.won = false
+        setWinStreak(0)
+        localStorage.setItem('winStreak', '0')
       }
 
       setUserInfo(newState)
@@ -248,8 +268,16 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
     const localStoragePrompt = localStorage.getItem('prompt') || '{}'
     const parsedLocalStorage = JSON.parse(localStoragePrompt)
 
-    if (parsedLocalStorage.solution === prompt.prompt.toLowerCase())
+    if (parsedLocalStorage.solution === prompt.prompt.toLowerCase()) {
+      if (parsedLocalStorage.won === null) {
+        parsedLocalStorage.tries[parsedLocalStorage.currRow] =
+          parsedLocalStorage.tries[parsedLocalStorage.currRow].map(() => {
+            return ''
+          })
+      }
+
       return setUserInfo(parsedLocalStorage)
+    }
 
     // currRow: number
     // currTry: Array<string | null>
@@ -330,6 +358,7 @@ export function TriesContextProvider({ children }: TriesContextProviderProps) {
         currentPrompt,
         isContrast,
         promptError,
+        winStreak,
         onSetIsContrast,
         onComplete,
         onKeyPressed,

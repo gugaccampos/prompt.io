@@ -102,3 +102,28 @@ export const Loader = styled.span`
     }
   }
 `
+export const SmallScreen = styled.div`
+  @media (max-width: 800px) {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${(props) => props.theme.colors.bg};
+  }
+  @media (min-width: 801px) {
+    display: none;
+  }
+`
+export const LargeScreen = styled.div`
+  @media (max-width: 800px) {
+    display: none;
+  }
+  @media (min-width: 801px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+  }
+`

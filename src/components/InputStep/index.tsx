@@ -36,11 +36,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   const [inputFocused, setInputFocused] = useState(0)
 
   useEffect(() => {
+    const hasFocus = inputs.current.some((el) => el === document.activeElement)
     if (
       inputs.current.length &&
       userInfo !== undefined &&
       userInfo.tries[userInfo.currRow] !== undefined &&
-      userInfo.tries[userInfo.currRow].every((key) => key === '')
+      userInfo.tries[userInfo.currRow].every((key) => key === '') &&
+      !hasFocus
     ) {
       inputs.current[0].focus()
     }
@@ -49,7 +51,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
 
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
-      if (currentLetter === 'del' && inputFocused > 0) {
+      if (currentLetter === 'del' && inputFocused >= 0) {
         const newCode = [...code]
 
         if (newCode[inputFocused] !== '') {
@@ -65,7 +67,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
             userInfo.tries[rowIndex][inputFocused - 1] = ''
           }
           setCode(newCode)
-          inputs.current[inputFocused - 1].focus()
+          if (inputFocused > 0) {
+            inputs.current[inputFocused - 1].focus()
+          }
         }
       } else if (
         currentLetter === 'ok' &&
@@ -119,13 +123,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
       if (userInfo.currRow > 0) {
         if (userInfo.currRow > 0 && userInfo.triesFeedback[rowIndex] !== null) {
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.CORRECT) {
-            return isContrast ? theme.colors.green : theme.colors.blue
+            return isContrast ? theme.colors.blue : theme.colors.green
           }
 
           if (
             userInfo.triesFeedback[rowIndex][idx] === charStatus.WRONG_POSITION
           )
-            return isContrast ? theme.colors.yellow : theme.colors.orange
+            return isContrast ? theme.colors.orange : theme.colors.yellow
 
           if (userInfo.triesFeedback[rowIndex][idx] === charStatus.NOT_IN_WORD)
             return 'opacity'
@@ -137,8 +141,9 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   }
 
   const onKeyUp = (e: KeyboardEvent<HTMLInputElement>, slot: number) => {
-    if (e.code === 'Backspace' && slot !== 0) {
+    if (e.code === 'Backspace' && slot >= 0) {
       const newCode = [...code]
+      // se o input atual tiver conteudo
       if (
         userInfo !== undefined &&
         userInfo.tries[rowIndex][inputFocused] !== ''
@@ -148,14 +153,22 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
           userInfo.tries[rowIndex][inputFocused] = ''
         }
         setCode(newCode)
-        inputs.current[inputFocused].focus()
+
+        if (slot > 0) {
+          inputs.current[inputFocused].focus()
+        }
       } else {
         newCode[slot - 1] = ''
         if (userInfo !== undefined) userInfo.tries[rowIndex][slot - 1] = ''
         setCode(newCode)
-        inputs.current[slot - 1].focus()
+        if (slot > 0) {
+          inputs.current[slot - 1].focus()
+        }
       }
-    } else if (e.code === 'Enter' && code.every((key) => key !== '')) {
+    } else if (
+      (e.code === 'Enter' || e.code === 'NumpadEnter') &&
+      code.every((key) => key !== '')
+    ) {
       onComplete(code)
     } else if (
       e.code === 'ArrowRight' &&
@@ -172,6 +185,23 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     } else if (e.keyCode >= 65 && e.keyCode <= 90) {
       processInput(String(e.key), inputFocused)
     }
+  }
+
+  const handleBlur = (slot: number) => {
+    // console.log(slot, inputFocused)
+
+    setTimeout(() => {
+      const hasFocus = inputs.current.some(
+        (el) => el === document.activeElement
+      )
+      if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
+        inputs.current[slot].focus()
+      }
+    }, 0)
+  }
+
+  const handleFocus = (slot: number) => {
+    setInputFocused(slot)
   }
 
   return (
@@ -191,14 +221,15 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                       : rowIndex >= userInfo?.currRow
                   }
                   type="text"
-                  inputMode="numeric"
                   maxLength={1}
                   value={num}
+                  readOnly
                   autoFocus={!code[0].length && idx === 0}
                   // onChange={(e) => processInput(e, idx)}
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
-                  onFocus={() => setInputFocused(idx)}
+                  onFocus={() => handleFocus(idx)}
+                  onBlur={() => handleBlur(idx)}
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
@@ -214,14 +245,15 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   : rowIndex >= userInfo?.currRow
               }
               type="text"
-              inputMode="numeric"
               maxLength={1}
               value={num}
+              readOnly
               autoFocus={!code[0].length && idx === 0}
               // onChange={(e) => processInput(e, idx)}
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
-              onFocus={() => setInputFocused(idx)}
+              onFocus={() => handleFocus(idx)}
+              onBlur={() => handleBlur(idx)}
               // eslint-disable-next-line
               ref={(ref) => inputs.current.push(ref!)}
             />
