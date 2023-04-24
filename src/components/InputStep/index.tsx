@@ -36,15 +36,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
   const [inputFocused, setInputFocused] = useState(0)
 
   useEffect(() => {
-    const hasFocus = inputs.current.some((el) => el === document.activeElement)
     if (
       inputs.current.length &&
       userInfo !== undefined &&
       userInfo.tries[userInfo.currRow] !== undefined &&
-      userInfo.tries[userInfo.currRow].every((key) => key === '') &&
-      !hasFocus
+      userInfo.tries[userInfo.currRow].every((key) => key === '')
     ) {
-      inputs.current[0].focus()
+      inputs.current[inputFocused].focus()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete])
