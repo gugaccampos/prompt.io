@@ -280,10 +280,15 @@ export const Devs = styled.div`
     display: inline;
     color: white;
     width: fit-content;
+    color: ${(props) => props.theme.colors.secondary};
   }
 `
 
-export const Termo = styled.div``
+export const Termo = styled.div`
+  a {
+    color: ${(props) => props.theme.colors.secondary};
+  }
+`
 
 export const LogoSvg = styled.svg`
   height: 25px;

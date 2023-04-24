@@ -401,12 +401,7 @@ export const Topbar: FC = () => {
 
           <S.Termo>
             <S.ConfigText>Inspired by: </S.ConfigText>
-            <a
-              href="https://term.ooo/"
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: '#fff' }}
-            >
+            <a href="https://term.ooo/" target="_blank" rel="noreferrer">
               Termo
             </a>
           </S.Termo>
