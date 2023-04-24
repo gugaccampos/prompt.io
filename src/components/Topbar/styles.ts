@@ -32,6 +32,7 @@ export const Text = styled.h1`
   color: #ffffff;
   text-align: center;
 
+  width: 90%;
   margin: 0 auto;
 `
 
