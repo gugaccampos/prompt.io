@@ -146,7 +146,6 @@ export const Container = styled.div`
     justify-content: space-around;
 
     width: 100%;
-    height: 100%;
     max-width: ${theme.grid.container};
 
     margin-left: auto;
