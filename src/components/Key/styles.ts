@@ -9,12 +9,14 @@ export const Button = styled.button<{ special?: boolean; color?: string }>`
   border: none;
   border-radius: 4px;
 
-  width: ${({ special }) => (special ? '56px' : '32px')};
-  height: 40px;
+  @media (min-width: 601px) {
+    width: ${({ special }) => (special ? '56px' : '32px')};
+    height: 40px;
+  }
 
-  @media (max-width: 2000px) {
-    width: ${({ special }) => (special ? '40px' : '24px')};
-    height: 36px;
+  @media (max-width: 600px) {
+    flex: 1;
+    padding: 1em ${({ special }) => (special ? '0.4em' : '0')};
   }
 
   opacity: ${(props) => (props.color === 'opacity' ? 0.4 : 1)};
@@ -22,10 +24,7 @@ export const Button = styled.button<{ special?: boolean; color?: string }>`
   cursor: pointer;
 
   color: ${({ theme }) => theme.colors.white};
-  font-size: 1.8rem;
-  @media (max-width: 2000px) {
-    font-size: 1.6rem;
-  }
+  font-size: 1.6rem;
   font-weight: 500;
   text-transform: uppercase;
 

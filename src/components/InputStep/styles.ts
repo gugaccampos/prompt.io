@@ -39,7 +39,7 @@ export const Input = styled.input<{ color?: string; blur?: boolean }>`
   opacity: ${(props) => (props.blur || props.color === 'opacity' ? 0.4 : 1)};
 
   @media (max-width: 600px) {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 `
 

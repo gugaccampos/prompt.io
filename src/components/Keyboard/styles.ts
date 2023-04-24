@@ -5,13 +5,23 @@ export const Container = styled.div`
   flex-direction: column;
 
   margin: 0 auto;
-  margin-top: 24px;
-  @media (max-width: 2000px) {
-    margin-top: 12px;
-  }
+  margin-top: 12px;
 
   & > div {
     display: flex;
     justify-content: center;
+  }
+  @media (max-width: 600px) {
+    width: 92%;
+
+    div:first-child {
+      width: 110%;
+      margin-left: -5%;
+    }
+
+    div:last-child {
+      width: 110%;
+      margin-left: -5%;
+    }
   }
 `
