@@ -31,9 +31,9 @@ export const Default = () => {
 
   return (
     <>
-      <S.SmallScreen>
+      {/* <S.SmallScreen>
         <p>We only work for larger devices 😭</p>
-      </S.SmallScreen>
+      </S.SmallScreen> */}
       <S.LargeScreen>
         <Topbar />
         <Image

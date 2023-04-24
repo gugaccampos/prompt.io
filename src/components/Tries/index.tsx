@@ -1,12 +1,13 @@
 import InputStep from 'components/InputStep'
 import { TriesContext } from 'contexts/TriesContext'
 import { useContext } from 'react'
+import { Container } from './styles'
 
 export const Tries = () => {
   const { userInfo } = useContext(TriesContext)
 
   return (
-    <div>
+    <Container>
       {[...new Array(5)].map((item, idx) => {
         // se o index do array !== currRow, coloca q ta inativo
         return (
@@ -17,6 +18,6 @@ export const Tries = () => {
           />
         )
       })}
-    </div>
+    </Container>
   )
 }

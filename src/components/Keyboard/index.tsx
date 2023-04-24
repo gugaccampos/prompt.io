@@ -8,7 +8,7 @@ import { useTheme } from 'styled-components'
 const rows = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-  ['ok', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del']
+  ['del', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ok']
 ]
 
 export const Keyboard: FC = () => {
