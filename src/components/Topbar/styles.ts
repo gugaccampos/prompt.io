@@ -14,6 +14,7 @@ export const Container = styled.div`
 
   @media (max-width: 600px) {
     flex-direction: row;
+    align-items: flex-start;
   }
 `
 
@@ -203,12 +204,26 @@ export const ConfigClose = styled.div`
 export const Buttons = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
 
   @media (max-width: 600px) {
     flex-direction: column-reverse;
     gap: 1rem;
     width: 40px;
+  }
+`
+
+export const MobileButton = styled(Buttons)`
+  @media (min-width: 601px) {
+    display: none;
+  }
+`
+
+export const BigDevicesButtons = styled(Buttons)`
+  @media (max-width: 600px) {
+    display: none;
+  }
+  @media (min-width: 601px) {
+    margin-right: 30px;
   }
 `
 

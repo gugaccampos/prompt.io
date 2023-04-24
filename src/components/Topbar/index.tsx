@@ -19,19 +19,28 @@ export const Topbar: FC = () => {
 
   return (
     <S.Container>
+      <S.MobileButton>
+        <S.ButtonContainer onClick={() => setIsOpen(true)}>?</S.ButtonContainer>
+      </S.MobileButton>
+
       <S.LogoAndTexts>
         <S.LogoContainer>
           <Logo />
         </S.LogoContainer>
         <S.Text>Guess the prompt that generated the image</S.Text>
       </S.LogoAndTexts>
-      <S.Buttons>
+
+      <S.BigDevicesButtons>
         <S.ButtonContainer onClick={() => setIsOpen(true)}>?</S.ButtonContainer>
+      </S.BigDevicesButtons>
+
+      <S.Buttons>
         <S.ButtonContainer onClick={() => setConfigOpen(true)}>
           {' '}
           <Gear color="white" weight="bold" />
         </S.ButtonContainer>
       </S.Buttons>
+
       <S.Modal isOpen={isOpen} aria-label="modal" aria-hidden={!isOpen}>
         <S.Close
           role="button"
