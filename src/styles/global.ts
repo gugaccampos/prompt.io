@@ -153,6 +153,10 @@ export const Container = styled.div`
 
     padding-left: calc(${theme.grid.gutter} / 2);
     padding-right: calc(${theme.grid.gutter} / 2);
+
+    @media (max-width: 600px) {
+      padding: calc(${theme.grid.gutter} / 2);
+    }
   `}
 `
 
