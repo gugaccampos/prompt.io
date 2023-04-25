@@ -53,11 +53,11 @@ export const EndGameContainer = styled.div`
   gap: 20px;
   background-color: #302c42;
   border-radius: 10px;
-  width: 40%;
-  height: 60%;
+  width: 50%;
+  height: 80%;
   @media (max-width: 600px) {
     width: 80%;
-    height: 80%;
+    height: 90%;
   }
   max-width: 550px;
   max-height: 400px;
@@ -69,6 +69,10 @@ export const EndGameContainer = styled.div`
     width: 50%;
     text-align: center;
     font-size: 2rem;
+
+    @media (max-width: 800px) {
+      width: 80%;
+    }
   }
 
   div {
@@ -91,4 +95,22 @@ export const EndGameContent = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`
+
+export const ShareButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: ${(props) => props.theme.colors.blue};
+  color: #fff;
+  gap: 0.2rem;
+  z-index: 1;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `

@@ -1,14 +1,42 @@
 import { useTries } from 'contexts/TriesContext'
 import * as S from './styles'
 import { useEffect, useState } from 'react'
+import { ShareNetwork } from '@phosphor-icons/react'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export function EndGame() {
   const { userInfo, winStreak } = useTries()
   const [endGameModal, setEndGameModal] = useState(false)
-
+  const toastId = () => {
+    toast.dismiss()
+    toast('Copied to clipboard!', {
+      position: 'top-center',
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored'
+    })
+  }
   useEffect(() => {
     setEndGameModal(userInfo?.won !== null && userInfo !== undefined)
   }, [userInfo])
+
+  const handleCopyClip = async () => {
+    try {
+      if (userInfo?.won) {
+        await navigator.clipboard.writeText('ganhei')
+        toastId()
+      } else {
+        await navigator.clipboard.writeText('perdi')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <S.Modal
@@ -22,6 +50,7 @@ export function EndGame() {
         onClick={() => setEndGameModal(false)}
       ></S.Close>
       <S.EndGameContainer>
+        <ToastContainer />
         {userInfo?.won ? (
           <>
             <h1>You Won! 🥳</h1>
@@ -37,6 +66,10 @@ export function EndGame() {
           </>
         )}
         <h3>Come back tomorrow for another challenge!</h3>
+        <S.ShareButton onClick={handleCopyClip}>
+          <ShareNetwork color="#fff" weight="bold" />
+          Share
+        </S.ShareButton>
       </S.EndGameContainer>
     </S.Modal>
   )
