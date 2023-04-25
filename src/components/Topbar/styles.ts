@@ -256,7 +256,7 @@ export const ConfigContainer = styled.div`
   min-width: 450px;
   max-width: 600px;
   max-height: 450px;
-  padding: 1.2rem 3.2rem;
+  padding: 2.4rem 3.2rem;
   font-size: 2rem;
   @media (max-width: 600px) {
     width: 80%;
