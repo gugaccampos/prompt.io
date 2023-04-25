@@ -9,5 +9,6 @@ export const Container = styled.div`
 
   @media (max-width: 600px) {
     gap: 0.5em;
+    margin-bottom: 200px;
   }
 `

@@ -23,5 +23,10 @@ export const Container = styled.div`
       width: 110%;
       margin-left: -5%;
     }
+
+    position: fixed;
+    background-color: ${(props) => props.theme.colors.bg};
+    bottom: 0;
+    padding: 1rem;
   }
 `
