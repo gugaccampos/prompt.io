@@ -136,18 +136,21 @@ export const TutorialContainer = styled.div`
   border-radius: 10px;
   width: 60%;
   height: 90%;
-  @media (max-width: 600px) {
-    width: 80%;
-  }
+
   max-width: 810px;
-  max-height: 570px;
+  max-height: 800px;
   padding: 24px 32px;
   font-size: 2rem;
+  @media (max-width: 600px) {
+    width: 90%;
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
 `
 
 export const TutorialText = styled.text`
   @media (max-width: 600px) {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     &:first-child {
       text-align: center;
     }
@@ -248,15 +251,17 @@ export const ConfigContainer = styled.div`
   justify-content: space-around;
   background-color: #302c42;
   border-radius: 10px;
-  width: 40%;
-  height: 70%;
-  @media (max-width: 600px) {
-    width: 80%;
-  }
+  width: 30%;
+  gap: 1.6rem;
+  min-width: 450px;
   max-width: 600px;
   max-height: 450px;
-  padding: 12px 32px;
+  padding: 1.2rem 3.2rem;
   font-size: 2rem;
+  @media (max-width: 600px) {
+    width: 80%;
+    min-width: 80%;
+  }
 `
 export const ConfigDaltonico = styled.div`
   display: flex;

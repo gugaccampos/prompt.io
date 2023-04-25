@@ -8,6 +8,6 @@ export const Container = styled.div`
   margin-top: 1em;
 
   @media (max-width: 600px) {
-    gap: 1em;
+    gap: 0.5em;
   }
 `
