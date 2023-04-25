@@ -86,6 +86,14 @@ export const EndGameContainer = styled.div`
       color: ${(props) => props.theme.colors.green};
     }
   }
+  .my-toast-container .Toastify__toast {
+    background-color: ${(props) => props.theme.colors.blue};
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.6rem;
+    border-radius: 8px;
+  }
 `
 
 export const EndGameContent = styled.div`

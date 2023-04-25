@@ -28,11 +28,15 @@ export function EndGame() {
   const handleCopyClip = async () => {
     try {
       if (userInfo?.won) {
-        await navigator.clipboard.writeText('ganhei')
-        toastId()
+        await navigator.clipboard.writeText(
+          `Played prompt! ${userInfo.currRow}/5 🔥${winStreak}\nTry it here https://prompt-ia.vercel.app/`
+        )
       } else {
-        await navigator.clipboard.writeText('perdi')
+        await navigator.clipboard.writeText(
+          `Played prompt! 5/5 ❌❌ \nTry it here https://prompt-ia.vercel.app/`
+        )
       }
+      toastId()
     } catch (err) {
       console.error(err)
     }
@@ -50,7 +54,7 @@ export function EndGame() {
         onClick={() => setEndGameModal(false)}
       ></S.Close>
       <S.EndGameContainer>
-        <ToastContainer />
+        <ToastContainer className="my-toast-container" />
         {userInfo?.won ? (
           <>
             <h1>You Won! 🥳</h1>
