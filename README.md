@@ -1,58 +1,29 @@
+# prompt!
 
-![React Avançado](https://raw.githubusercontent.com/React-Avancado/boilerplate/master/public/img/logo-gh.svg)
+## Uso
 
-This is a [Next.js](https://nextjs.org/) boilerplate to be used in a course called [React Avançado](https://reactavancado.com.br/).
-![ci](https://github.com/React-Avancado/boilerplate/workflows/ci/badge.svg)
-## What is inside?
+O nosso jogo já está lançado e pode ser acessado nesse link:
 
-This project uses lot of stuff as:
+[https://prompt-ia.vercel.app/](https://prompt-ia.vercel.app/)
 
-- [TypeScript](https://www.typescriptlang.org/)
-- [NextJS](https://nextjs.org/)
-- [Styled Components](https://styled-components.com/)
-- [Jest](https://jestjs.io/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- [Storybook](https://storybook.js.org/)
-- [Eslint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-- [Husky](https://github.com/typicode/husky)
+## Descrição
 
-## Getting Started
+Projeto da disciplina de Multimidia que fizemos um jogo de navegador que, dada uma imagem gerada por inteligência artificial, o jogador precisa acertar o prompt que gerou ela. O jogo é inspirado no [Termo](https://term.ooo/).
 
-First, run the development server:
+O projeto é dividido em 3 frentes:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Back-end
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Nosso back foi feito em Nodejs e é responsável por pegar do banco de dados qual é o desafio do dia atual, em que o desafio é formado por uma imagem e um prompt. Ele então coloca em uma API para o front pegar esse desafio do dia atual.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Geração de imagens e prompts
 
-## Commands
+Essa frente foi feita utilizando a linguagem Python. Para a geração de imagens, utilizamos o OpenJourney, que é um Stable Diffusion modificado para ter gerações de imagens mais realistas. Optamos por ele por ter um resultado muito semelhante com o MidJourney e por ser gratuito. Já para os prompts, utilizamos a API da OpenAI e utilizamos o chatGPT para criar todos os prompts, com uma engenharia de prompt envolvida para que ele desse resultados satisfatórios.
 
-- `dev`: runs your application on `localhost:3000`
-- `build`: creates the production build version
-- `start`: starts a simple server with the build production code
-- `lint`: runs the linter in all components and pages
-- `test`: runs jest to test all components and pages
-- `test:watch`: runs jest in watch mode
-- `storybook`: runs storybook on `localhost:6006`
-- `build-storybook`: create the build version of storybook
+### Front-end
 
-## Learn More
+O front é toda parte que o jogador vê e foi feito com a tecnologia Nextjs. No front, além do visual, implementamos toda a verificação de acertos e erros do usuário, a parte do usuário digitar na tela e os quadradinhos do dia serem de acordo com o prompt do dia, por exemplo.
 
-To learn more about Next.js, take a look at the following resources:
+## Grupo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este projeto foi criado por [Gustavo Campos](https://github.com/gugaccampos), [Lucas Acioly](https://github.com/lucasacioly), [Lucas Melo](https://github.com/lucasgmelo), [Matheus Frej](https://github.com/Matheusfrej) e [Rodrigo Mesel](https://github.com/RodrigoMesel).
