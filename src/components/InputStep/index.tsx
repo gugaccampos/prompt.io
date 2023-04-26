@@ -28,12 +28,25 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     onComplete,
     setNewLetter
   } = useTries()
+  const [OSName, setOSName] = useState('')
 
   const [code, setCode] = useState(
     [...Array(userInfo?.promptLength)].map(() => '')
   )
   const inputs = useRef<HTMLInputElement[]>([])
   const [inputFocused, setInputFocused] = useState(0)
+
+  useEffect(() => {
+    if (OSName == '') {
+      if (
+        navigator.platform.indexOf('iPhone') != -1 ||
+        navigator.platform.indexOf('iPad') != -1 ||
+        navigator.platform.indexOf('iPod') != -1
+      ) {
+        setOSName('iOS')
+      }
+    }
+  }, [OSName])
 
   useEffect(() => {
     if (
@@ -47,6 +60,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete])
 
+  // useEffect que trata as entradas do teclado virtual
   useEffect(() => {
     if (isRowActive && currentLetter !== '') {
       if (currentLetter === 'del' && inputFocused >= 0) {
@@ -185,18 +199,16 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     }
   }
 
-  const handleBlur = (slot: number) => {
-    // console.log(slot, inputFocused)
-
-    setTimeout(() => {
-      const hasFocus = inputs.current.some(
-        (el) => el === document.activeElement
-      )
-      if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
-        inputs.current[slot].focus()
-      }
-    }, 0)
-  }
+  // const handleBlur = (slot: number) => {
+  //   setTimeout(() => {
+  //     const hasFocus = inputs.current.some(
+  //       (el) => el === document.activeElement
+  //     )
+  //     if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
+  //       inputs.current[slot].focus()
+  //     }
+  //   }, 0)
+  // }
 
   const handleFocus = (slot: number) => {
     setInputFocused(slot)
@@ -227,7 +239,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
                   onFocus={() => handleFocus(idx)}
-                  onBlur={() => handleBlur(idx)}
+                  // onBlur={() => handleBlur(idx)}
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
@@ -251,7 +263,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
               onFocus={() => handleFocus(idx)}
-              onBlur={() => handleBlur(idx)}
+              // onBlur={() => handleBlur(idx)}
               // eslint-disable-next-line
               ref={(ref) => inputs.current.push(ref!)}
             />
