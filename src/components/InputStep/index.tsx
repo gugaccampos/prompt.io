@@ -28,25 +28,13 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     onComplete,
     setNewLetter
   } = useTries()
-  const [OSName, setOSName] = useState('')
+  const [wasBlurred, setWasBlurred] = useState(false)
 
   const [code, setCode] = useState(
     [...Array(userInfo?.promptLength)].map(() => '')
   )
   const inputs = useRef<HTMLInputElement[]>([])
   const [inputFocused, setInputFocused] = useState(0)
-
-  useEffect(() => {
-    if (OSName == '') {
-      if (
-        navigator.platform.indexOf('iPhone') != -1 ||
-        navigator.platform.indexOf('iPad') != -1 ||
-        navigator.platform.indexOf('iPod') != -1
-      ) {
-        setOSName('iOS')
-      }
-    }
-  }, [OSName])
 
   useEffect(() => {
     if (
@@ -199,15 +187,12 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
     }
   }
 
-  const handleBlur = (slot: number) => {
-    requestAnimationFrame(() => {
-      const hasFocus = inputs.current.some(
-        (el) => el === document.activeElement
-      )
-      if (inputFocused !== slot || (inputFocused === slot && !hasFocus)) {
-        inputs.current[slot].focus()
-      }
-    })
+  useEffect(() => {
+    inputs.current[inputFocused].focus()
+  }, [inputFocused, wasBlurred])
+
+  const handleBlur = () => {
+    setWasBlurred(!wasBlurred)
   }
 
   const handleFocus = (slot: number) => {
@@ -239,7 +224,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
                   onKeyUp={(e) => onKeyUp(e, idx)}
                   color={renderInputColor(idx)}
                   onFocus={() => handleFocus(idx)}
-                  onBlur={() => handleBlur(idx)}
+                  onBlur={() => handleBlur()}
                   // eslint-disable-next-line
                   ref={(ref) => inputs.current.push(ref!)}
                 />
@@ -263,7 +248,7 @@ const InputStep: FC<InputStepT> = ({ isRowActive, rowIndex }) => {
               onKeyUp={(e) => onKeyUp(e, idx)}
               color={renderInputColor(idx)}
               onFocus={() => handleFocus(idx)}
-              onBlur={() => handleBlur(idx)}
+              onBlur={() => handleBlur()}
               // eslint-disable-next-line
               ref={(ref) => inputs.current.push(ref!)}
             />
