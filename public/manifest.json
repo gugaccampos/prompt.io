@@ -1,9 +1,9 @@
 {
-  "name": "React Avançado - Boilerplate",
-  "short_name": "React Avançado",
-  "background_color": "#06092B",
-  "description": "Boilerplate utilizando Typescript, React, NextJS e Styled Components!",
+  "name": "prompt!",
+  "short_name": "prompt!",
+  "background_color": "#302C42",
+  "description": "Guess the prompt! that generated the image of the day",
   "display": "fullscreen",
   "start_url": "/",
-  "theme_color": "#06092B"
+  "theme_color": "#302C42"
 }

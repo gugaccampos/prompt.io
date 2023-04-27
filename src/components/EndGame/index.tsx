@@ -29,11 +29,11 @@ export function EndGame() {
     try {
       if (userInfo?.won) {
         await navigator.clipboard.writeText(
-          `Played prompt! ${userInfo.currRow}/5 🔥${winStreak}\nTry it here https://prompt-ia.vercel.app/`
+          `I found how an AI generated an image! Can you do it as well?\nMy score: ${userInfo.currRow}/5 ✅\nWin streak: ${winStreak} 🔥\nTry it here: https://prompt-ia.vercel.app/`
         )
       } else {
         await navigator.clipboard.writeText(
-          `Played prompt! 5/5 ❌❌ \nTry it here https://prompt-ia.vercel.app/`
+          `Couldnt find out how an AI generated an image 😭. Can you do better than me?\n❌❌\nTry it here: https://prompt-ia.vercel.app/`
         )
       }
       toastId()
